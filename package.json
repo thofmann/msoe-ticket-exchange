@@ -51,9 +51,11 @@
     "grunt-mocha-cli": "^3.0.0",
     "history": "^4.6.1",
     "nyc": "^10.2.0",
+    "purecss": "^0.6.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
     "request": "^2.81.0"
   }
 }

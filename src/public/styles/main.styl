@@ -3,4 +3,20 @@ html, body
     margin: 0
     padding: 0
 
+a
+    color: inherit
+    text-decoration: none
+
+    &:hover
+        text-decoration: underline
+
+.clear
+    border: 0
+    padding: 0
+    margin: 0
+    clear: both
+
 @import 'index.styl'
+
+@require '../../../node_modules/purecss/build/pure-min.css'
+@require '../../../node_modules/purecss/build/grids-responsive-min.css'

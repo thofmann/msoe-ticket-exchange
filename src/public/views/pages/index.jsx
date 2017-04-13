@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ListenerComponent from '../../../lib/listener-component.jsx';
+import Stat from '../components/stat.jsx';
 
 export default class Index extends ListenerComponent {
 
@@ -14,7 +16,16 @@ export default class Index extends ListenerComponent {
     render() {
         return (
             <div id='index'>
-                <h1>MSOE Ticket Exchange</h1>
+                <div className='header'>
+                    <div className='name'>MSOE Ticket Exchange</div>
+                    <Link to='/login' className='login'>Log In</Link>
+                    <div className='clear'></div>
+                    <div className='title'>Buy and sell MSOE graduation tickets</div>
+                </div>
+                <div className='stats'>
+                    <Stat number={84} name='Students registered' />
+                    <Stat number={194} name='Tickets exchanged' />
+                </div>
             </div>
         );
     }
