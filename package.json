@@ -7,7 +7,7 @@
     "start": "node .dist/index.js",
     "build": "grunt build",
     "test": "grunt test",
-    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm run test-unit && nyc report --reporter=text-lcov > coverage.lcov",
+    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm run test && nyc report --reporter=text-lcov > coverage.lcov",
     "lint": "grunt lint"
   },
   "repository": {
