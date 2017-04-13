@@ -22,9 +22,10 @@ export default class Index extends ListenerComponent {
                     <div className='clear'></div>
                     <div className='title'>Buy and sell MSOE graduation tickets</div>
                 </div>
-                <div className='stats'>
-                    <Stat number={84} name='Students registered' />
-                    <Stat number={194} name='Tickets exchanged' />
+                <div className='stats pure-g'>
+                    <Stat number={'84'} name='Students registered' />
+                    <Stat number={'194'} name='Tickets exchanged' />
+                    <Stat number={'$20.12'} name='Latest ticket price' />
                 </div>
             </div>
         );
