@@ -1,0 +1,59 @@
+{
+  "name": "msoe-ticket-exchange",
+  "version": "1.0.0",
+  "description": "An exchange for buying and selling MSOE graduation tickets",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .dist/index.js",
+    "build": "grunt build",
+    "test": "grunt test",
+    "coverage": "cross-env NODE_ENV=test BABEL_ENV=test nyc npm run test-unit && nyc report --reporter=text-lcov > coverage.lcov",
+    "lint": "grunt lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thofmann/msoe-ticket-exchange"
+  },
+  "keywords": [
+    "msoe",
+    "graduation",
+    "ticket",
+    "exchange"
+  ],
+  "author": "Trevin Hofmann <trevinhofmann@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/thofmann/msoe-ticket-exchange/issues"
+  },
+  "homepage": "https://github.com/thofmann/msoe-ticket-exchange#readme",
+  "devDependencies": {
+    "babel-eslint": "^7.2.2",
+    "babel-plugin-istanbul": "^4.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "babelify": "^7.3.0",
+    "body-parser": "^1.17.1",
+    "chai": "^3.5.0",
+    "cross-env": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "express": "^4.15.2",
+    "grunt": "^1.0.1",
+    "grunt-babel": "^6.0.0",
+    "grunt-browserify": "^5.0.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-compress": "^1.4.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-eslint": "0.0.5",
+    "grunt-contrib-stylus": "^1.2.0",
+    "grunt-eslint": "^19.0.0",
+    "grunt-inline": "^0.3.6",
+    "grunt-mocha-cli": "^3.0.0",
+    "history": "^4.6.1",
+    "nyc": "^10.2.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "request": "^2.81.0"
+  }
+}

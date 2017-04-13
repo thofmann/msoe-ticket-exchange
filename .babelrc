@@ -1,0 +1,14 @@
+{
+    "presets": [
+        "es2015",
+        "react"
+    ],
+    "compact": true,
+    "comments": false,
+    "env": {
+        "test": {
+            "plugins": ["istanbul"]
+        }
+    },
+    "sourceMap": true
+}

@@ -1,0 +1,15 @@
+{
+    "all": true,
+    "cache": true,
+    "include": [
+        "src/**/*.js"
+    ],
+    "exclude": [
+        "src/index.js"
+    ],
+    "instrument": false,
+    "require": [
+        "babel-register"
+    ],
+    "sourceMap": false
+}
