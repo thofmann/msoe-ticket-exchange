@@ -18,8 +18,8 @@ export default class Side extends React.Component {
                 </tr>
                 {this.props.orders.slice(0, 10).map(order => (
                     <tr>
-                        <td>{bid.quantity}</td>
-                        <td>{bid.price}</td>
+                        <td>{order.quantity}</td>
+                        <td>{order.price}</td>
                     </tr>
                 ))}
             </div>
