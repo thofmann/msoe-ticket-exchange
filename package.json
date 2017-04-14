@@ -34,6 +34,7 @@
     "babelify": "^7.3.0",
     "body-parser": "^1.17.1",
     "chai": "^3.5.0",
+    "consus-core": "^0.6.0",
     "cross-env": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "express": "^4.15.2",

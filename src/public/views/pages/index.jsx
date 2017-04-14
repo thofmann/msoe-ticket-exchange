@@ -1,68 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import OrderBookStore from '../../stores/order-book-store';
 import ListenerComponent from '../../../lib/listener-component.jsx';
+import OrderBook from '../components/order-book.jsx';
 import Stat from '../components/stat.jsx';
 
 export default class Index extends ListenerComponent {
 
     getStores() {
-        return [];
+        return [
+            OrderBookStore
+        ];
     }
 
     getState() {
         return {
-            bids: [
-                {
-                    quantity: 2,
-                    price: 28.0
-                },
-                {
-                    quantity: 1,
-                    price: 27.9
-                },
-                {
-                    quantity: 5,
-                    price: 27.8
-                },
-                {
-                    quantity: 1,
-                    price: 27.5
-                },
-                {
-                    quantity: 1,
-                    price: 27.0
-                },
-                {
-                    quantity: 3,
-                    price: 25
-                }
-            ],
-            asks: [
-                {
-                    quantity: 1,
-                    price: 28.3
-                },
-                {
-                    quantity: 2,
-                    price: 28.5
-                },
-                {
-                    quantity: 1,
-                    price: 28.8
-                },
-                {
-                    quantity: 2,
-                    price: 29.0
-                },
-                {
-                    quantity: 4,
-                    price: 29.2
-                },
-                {
-                    quantity: 3,
-                    price: 29.5
-                }
-            ]
+            bids: OrderBookStore.getBids(),
+            asks: OrderBookStore.getAsks()
         };
     }
 
@@ -86,46 +40,7 @@ export default class Index extends ListenerComponent {
                     <Stat number={'194'} name='Tickets exchanged' />
                     <Stat number={'$20.12'} name='Latest ticket price' />
                 </div>
-                <div className='orderbook pure-g'>
-                    <div className='bids pure-u-1 pure-u-md-1-2'>
-                        <div className='top'>
-                            <span className='title'>
-                                Bids
-                            </span>
-                        </div>
-                        <div className='list'>
-                            <tr>
-                                <th>Quantity</th>
-                                <th>Price (mBTC)</th>
-                            </tr>
-                            {this.state.bids.map(bid => (
-                                <tr>
-                                    <td>{bid.quantity}</td>
-                                    <td>{bid.price}</td>
-                                </tr>
-                            ))}
-                        </div>
-                    </div>
-                    <div className='asks pure-u-1 pure-u-md-1-2'>
-                        <div className='top'>
-                            <span className='title'>
-                                Asks
-                            </span>
-                        </div>
-                        <table className='list'>
-                            <tr>
-                                <th>Quantity</th>
-                                <th>Price (mBTC)</th>
-                            </tr>
-                            {this.state.asks.map(ask => (
-                                <tr>
-                                    <td>{ask.quantity}</td>
-                                    <td>{ask.price}</td>
-                                </tr>
-                            ))}
-                        </table>
-                    </div>
-                </div>
+                <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <div className='announcements'>
                     Announcements go here.
                 </div>
