@@ -1,22 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import OrderBookStore from '../../stores/order-book-store';
+import AnnouncementStore from '../../stores/announcement-store';
 import ListenerComponent from '../../../lib/listener-component.jsx';
 import OrderBook from '../components/order-book.jsx';
 import Stat from '../components/stat.jsx';
+import Announcements from '../components/announcements.jsx';
 
 export default class Index extends ListenerComponent {
 
     getStores() {
         return [
-            OrderBookStore
+            OrderBookStore,
+            AnnouncementStore
         ];
     }
 
     getState() {
         return {
             bids: OrderBookStore.getBids(),
-            asks: OrderBookStore.getAsks()
+            asks: OrderBookStore.getAsks(),
+            announcements: AnnouncementStore.getAnnouncements()
         };
     }
 
@@ -41,9 +45,7 @@ export default class Index extends ListenerComponent {
                     <Stat number={'$20.12'} name='Latest ticket price' />
                 </div>
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
-                <div className='announcements'>
-                    Announcements go here.
-                </div>
+                <Announcements announcements={this.state.announcements} />
                 <div className='how'>
                     How it works!
                 </div>
