@@ -126,6 +126,12 @@ export default class Index extends ListenerComponent {
                         </table>
                     </div>
                 </div>
+                <div className='announcements'>
+                    Announcements go here.
+                </div>
+                <div className='how'>
+                    How it works!
+                </div>
             </div>
         );
     }
