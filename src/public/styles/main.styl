@@ -1,7 +1,15 @@
-html, body
+html
+    height: 100%
     width: 100%
     margin: 0
     padding: 0
+
+body
+    min-height: calc(100%-82px)
+    width: 100%
+    position: relative
+    margin: 0
+    padding: 0 0 82px 0
 
 a
     color: inherit
@@ -12,6 +20,7 @@ a
 
 @import 'index.styl'
 @import 'announcements.styl'
+@import 'footer.styl'
 
 @require '../../../node_modules/purecss/build/pure-min.css'
 @require '../../../node_modules/purecss/build/grids-responsive-min.css'

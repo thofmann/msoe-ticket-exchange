@@ -6,6 +6,7 @@ import ListenerComponent from '../../../lib/listener-component.jsx';
 import OrderBook from '../components/order-book.jsx';
 import Stat from '../components/stat.jsx';
 import Announcements from '../components/announcements.jsx';
+import Footer from '../components/footer.jsx';
 
 export default class Index extends ListenerComponent {
 
@@ -49,6 +50,7 @@ export default class Index extends ListenerComponent {
                 <div className='how'>
                     How it works!
                 </div>
+                <Footer />
             </div>
         );
     }
