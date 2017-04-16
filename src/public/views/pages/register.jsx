@@ -4,7 +4,7 @@ import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
 import Notice from '../components/notice.jsx';
 
-export default class Login extends ListenerComponent {
+export default class Register extends ListenerComponent {
 
     getStores() {
         return [];
@@ -20,9 +20,9 @@ export default class Login extends ListenerComponent {
 
     render() {
         return (
-            <div id='login'>
+            <div id='register'>
                 <Notice />
-                <Header title='Log in' />
+                <Header title='Register' />
                 <form>
                     Student email address:
                     <input type='email' required />
