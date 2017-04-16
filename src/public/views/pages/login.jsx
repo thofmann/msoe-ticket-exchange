@@ -14,6 +14,10 @@ export default class Login extends ListenerComponent {
         return {};
     }
 
+    submit(e) {
+        e.preventDefault();
+    }
+
     render() {
         return (
             <div id='login'>
@@ -22,9 +26,7 @@ export default class Login extends ListenerComponent {
                 <form>
                     Student email address:
                     <input type='email' pattern='.*@msoe\.edu$' required />
-                    Password:
-                    <input type='password' />
-                    <input type='submit' />
+                    <input type='submit' onClick={this.submit.bind(this)} />
                 </form>
                 <Footer />
             </div>
