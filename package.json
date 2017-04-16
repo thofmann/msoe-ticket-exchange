@@ -58,5 +58,8 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "request": "^2.81.0"
+  },
+  "dependencies": {
+    "validator": "^7.0.0"
   }
 }
