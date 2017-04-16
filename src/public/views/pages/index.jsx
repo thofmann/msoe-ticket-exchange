@@ -9,6 +9,7 @@ import Stat from '../components/stat.jsx';
 import Announcements from '../components/announcements.jsx';
 import Footer from '../components/footer.jsx';
 import HowStep from '../components/how-step.jsx';
+import Notice from '../components/notice.jsx';
 
 export default class Index extends ListenerComponent {
 
@@ -34,6 +35,7 @@ export default class Index extends ListenerComponent {
     render() {
         return (
             <div id='index'>
+                <Notice />
                 <Header title='Buy and sell MSOE graduation tickets' />
                 <div className='stats pure-g'>
                     <Stat number={this.state.studentsRegistered} name='Students registered' />
