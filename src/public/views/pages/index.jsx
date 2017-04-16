@@ -7,6 +7,7 @@ import OrderBook from '../components/order-book.jsx';
 import Stat from '../components/stat.jsx';
 import Announcements from '../components/announcements.jsx';
 import Footer from '../components/footer.jsx';
+import HowStep from '../components/how-step.jsx';
 
 export default class Index extends ListenerComponent {
 
@@ -36,8 +37,12 @@ export default class Index extends ListenerComponent {
                 </div>
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Announcements announcements={this.state.announcements} />
-                <div className='how'>
-                    How it works!
+                <div className='how pure-g'>
+                    <div className='title pure-u-1'>How it works</div>
+                    <HowStep title='1. Register' text='Sign up with your msoe.edu student email address.' />
+                    <HowStep title='2. Deposit' text='Deposit your tickets (in-person) or funds (online) for trading.' />
+                    <HowStep title='3. Trade' text='Buy tickets with your deposited funds, or sell your deposited tickets.' />
+                    <HowStep title='4. Withdraw' text='Withdraw your tickets (in-person) or funds (online).' />
                 </div>
                 <Footer />
             </div>
