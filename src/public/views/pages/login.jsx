@@ -18,7 +18,9 @@ export default class Login extends ListenerComponent {
             <div id='login'>
                 <Header title='Log in' />
                 <form>
-                    <input type='email' required />
+                    Student email address:
+                    <input type='email' pattern='.*@msoe\.edu$' required />
+                    Password:
                     <input type='password' />
                     <input type='submit' />
                 </form>

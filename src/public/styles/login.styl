@@ -6,6 +6,23 @@
         padding: 32px
         background-color: #f2f2f2
         box-sizing: border-box
+        font-weight: bold
 
         input
             width: 100%
+            padding: 4px 12px
+
+            &[type='email'], &[type='password']
+                margin: 4px 0 8px 0
+                font-weight: normal
+                border: 1px solid #0b1e2e
+
+            &[type='submit']
+                padding: 6px 0
+                border: 1px solid #0b1e2e
+                background-color: #163249
+                color: #ffffff
+
+                &:hover
+                    background-color: #0b1e2e
+                    color: #ffffff
