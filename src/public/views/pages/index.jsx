@@ -1,5 +1,6 @@
 import React from 'react';
 import OrderBookStore from '../../stores/order-book-store';
+import StatsStore from '../../stores/stats-store';
 import AnnouncementStore from '../../stores/announcement-store';
 import ListenerComponent from '../../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
@@ -13,6 +14,7 @@ export default class Index extends ListenerComponent {
 
     getStores() {
         return [
+            StatsStore,
             OrderBookStore,
             AnnouncementStore
         ];
@@ -22,7 +24,10 @@ export default class Index extends ListenerComponent {
         return {
             bids: OrderBookStore.getBids(),
             asks: OrderBookStore.getAsks(),
-            announcements: AnnouncementStore.getAnnouncements()
+            announcements: AnnouncementStore.getAnnouncements(),
+            studentsRegistered: StatsStore.getStudentsRegistered(),
+            ticketsExchanged: StatsStore.getTicketsExchanged(),
+            lastPrice: StatsStore.getLastPrice()
         };
     }
 
@@ -31,9 +36,9 @@ export default class Index extends ListenerComponent {
             <div id='index'>
                 <Header title='Buy and sell MSOE graduation tickets' />
                 <div className='stats pure-g'>
-                    <Stat number={'84'} name='Students registered' />
-                    <Stat number={'194'} name='Tickets exchanged' />
-                    <Stat number={'$20.12'} name='Latest ticket price' />
+                    <Stat number={this.state.studentsRegistered} name='Students registered' />
+                    <Stat number={this.state.ticketsExchanged} name='Tickets exchanged' />
+                    <Stat number={this.state.lastPrice} name='Latest ticket price' />
                 </div>
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Announcements announcements={this.state.announcements} />
