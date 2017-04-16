@@ -26,6 +26,12 @@ export default class Register extends ListenerComponent {
                 <form>
                     Student email address:
                     <input type='email' required />
+                    Backup email address:
+                    <input type='email' required />
+                    Password:
+                    <input type='password' required />
+                    Confirm password:
+                    <input type='password' required />
                     <input type='submit' onClick={this.submit.bind(this)} />
                 </form>
                 <Footer />
