@@ -1,5 +1,5 @@
 import React from 'react';
-import ListenerComponent from '../../../lib/listener-component.jsx';
+import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
 import Notice from '../components/notice.jsx';

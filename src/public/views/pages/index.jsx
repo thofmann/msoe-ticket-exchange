@@ -2,7 +2,7 @@ import React from 'react';
 import OrderBookStore from '../../stores/order-book-store';
 import StatsStore from '../../stores/stats-store';
 import AnnouncementStore from '../../stores/announcement-store';
-import ListenerComponent from '../../../lib/listener-component.jsx';
+import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
 import OrderBook from '../components/order-book.jsx';
 import Stat from '../components/stat.jsx';
