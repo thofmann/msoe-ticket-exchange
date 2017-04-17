@@ -60,9 +60,33 @@ export default class Register extends ListenerComponent {
         let backupEmail = this.state.backupEmail;
         let password = this.state.password;
         let confirmPassword = this.state.confirmPassword;
+        if (studentEmail === '') {
+            this.setState({
+                error: 'Please enter your student email address.'
+            });
+            return;
+        }
+        if (backupEmail === '') {
+            this.setState({
+                error: 'Please enter a backup email address.'
+            });
+            return;
+        }
+        if (password === '') {
+            this.setState({
+                error: 'Please enter a password.'
+            });
+            return;
+        }
+        if (confirmPassword === '') {
+            this.setState({
+                error: 'Please confirm your password.'
+            });
+            return;
+        }
         if (password !== confirmPassword) {
             this.setState({
-                error: 'Your password does not match your confirmation password.'
+                error: 'Your password does not match your confirmation password. Please reconfirm your password.'
             });
             return;
         }
