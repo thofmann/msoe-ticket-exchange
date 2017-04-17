@@ -60,6 +60,7 @@
     "request": "^2.81.0"
   },
   "dependencies": {
+    "body-parser": "^1.17.1",
     "oak-lite": "^1.0.0",
     "validator": "^7.0.0"
   }
