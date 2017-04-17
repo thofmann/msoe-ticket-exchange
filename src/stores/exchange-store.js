@@ -2,6 +2,8 @@ import { Store } from 'consus-core/flux';
 import clone from 'consus-core/clone';
 
 let students = new Map();
+let bids = []; // descending bid price
+let asks = []; // ascending ask price
 
 function getStudentByBackupEmail(email) {
     for (let student of students) {
@@ -11,7 +13,19 @@ function getStudentByBackupEmail(email) {
     }
 }
 
-class StudentStore extends Store {
+function insertBid(price, quantity, studentEmail) {
+    for (let i = 0; i <= bids.length; i++) {
+        if (bids[i].price < price) {
+            bids.splice(i, 0, {
+                price,
+                quantity,
+                studentEmail
+            });
+        }
+    }
+}
+
+class ExchangeStore extends Store {
 
     getStudent(email) {
         return clone(students.get(email));
@@ -21,9 +35,17 @@ class StudentStore extends Store {
         return clone(getStudentByBackupEmail(email));
     }
 
+    getBids(count = Infinity) {
+        return clone(bids.slice(0, count));
+    }
+
+    getAsks(count = Infinity) {
+        return clone(asks.slice(0, count));
+    }
+
 }
 
-const store = new StudentStore();
+const store = new ExchangeStore();
 
 store.registerHandler('NEW_STUDENT', data => {
     if (students.has(data.email)) {
@@ -84,6 +106,22 @@ store.registerHandler('NEW_BID', data => {
     }
     if (student.balance.satoshis < data.quantity * data.price) {
         throw new Error('You do not have enough satoshis to place this bid.');
+    }
+    let remaining = data.quantity;
+    while (remaining > 0) {
+        if (asks[0].price <= data.price) {
+            if (asks[0].quantity <= remaining) {
+                remaining -= asks[0].quantity;
+                asks.shift();
+                // TODO: credit students
+            } else {
+                asks[0].quantity -= remaining;
+                remaining = 0;
+                // TODO: credit students
+            }
+        } else {
+            insertBid(data.price, remaining, data.studentEmail);
+        }
     }
 });
 
