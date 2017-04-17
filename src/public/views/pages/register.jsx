@@ -1,5 +1,6 @@
 import React from 'react';
 import { post } from '../../lib/api';
+import { hash } from '../../lib/crypto';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
@@ -95,7 +96,7 @@ export default class Register extends ListenerComponent {
         post('student/register', {
             studentEmail,
             backupEmail,
-            password
+            password: hash(password)
         }).then(() => {
             this.setState({
                 completed: true
