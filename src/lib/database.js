@@ -4,7 +4,7 @@ import { Dispatcher } from 'consus-core/flux';
 import Oak from 'oak-lite';
 
 const database = Oak.configure({
-    dataDirectory: path.join(__dirname, '../../');
+    dataDirectory: path.join(__dirname, '../../')
 });
 
 const rack = database.selectRack('actions');
@@ -29,5 +29,5 @@ export function publish(type, data) {
             type,
             data
         });
-    })
+    });
 }
