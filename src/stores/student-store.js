@@ -40,7 +40,11 @@ store.registerHandler('NEW_STUDENT', data => {
         confirmStudentEmailToken: data.confirmStudentEmailToken,
         confirmBackupEmailToken: data.confirmBackupEmailToken,
         hashedPassword: data.hashedPassword,
-        salt: data.salt
+        salt: data.salt,
+        balance: {
+            tickets: 0,
+            satoshis: 0
+        }
     });
 });
 
