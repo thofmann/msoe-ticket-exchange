@@ -8,7 +8,7 @@ let bids = []; // descending bid price
 let asks = []; // ascending ask price
 
 function getStudentByBackupEmail(email) {
-    for (let student of students) {
+    for (let student of students.values()) {
         if (student.backupEmail === email) {
             return clone(student);
         }
