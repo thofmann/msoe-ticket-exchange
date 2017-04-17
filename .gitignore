@@ -1,5 +1,6 @@
 .dist
 .test
+.oak
 node_modules
 npm-debug.log*
 coverage*
