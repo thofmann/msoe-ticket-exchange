@@ -60,6 +60,7 @@
     "request": "^2.81.0"
   },
   "dependencies": {
+    "oak-lite": "^1.0.0",
     "validator": "^7.0.0"
   }
 }
