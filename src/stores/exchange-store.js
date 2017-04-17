@@ -34,6 +34,20 @@ function insertBid(quantity, price, studentEmail) {
                 price,
                 studentEmail
             });
+            return;
+        }
+    }
+}
+
+function insertAsk(quantity, price, studentEmail) {
+    for (let i = 0; i <= asks.length; i++) {
+        if (asks[i].price > price) {
+            asks.splice(i, 0, {
+                quantity,
+                price,
+                studentEmail
+            });
+            return;
         }
     }
 }
@@ -155,6 +169,50 @@ store.registerHandler('NEW_BID', data => {
     if (ticketsBought > 0) {
         let description = ticketsBought === quantity ? 'Bid filled' : 'Bid partially filled';
         createTransaction(studentEmail, 'tickets', ticketsBought, description, timestamp);
+    }
+});
+
+store.registerHandler('NEW_ASK', data => {
+    let studentEmail = data.studentEmail;
+    let quantity = data.quantity;
+    let price = data.price;
+    let timestamp = data.timestamp;
+    let student = students.get(studentEmail);
+    if (student === undefined) {
+        throw new Error('This student email address is not in use.');
+    }
+    if (student.balance.tickets < quantity) {
+        throw new Error('You do not have enough tickets to place this ask.');
+    }
+    let totalSatoshisReceived = 0;
+    let ticketsRemaining = quantity;
+    while (ticketsRemaining > 0) {
+        if (bids[0].price >= price) {
+            if (bids[0].quantity <= ticketsRemaining) {
+                let ticketsExchanged = bids[0].quantity;
+                let satoshisPaid = ticketsExchanged * bids[0].price;
+                let satoshisReceived = Math.ceil(satoshisPaid * (1 - FEE));
+                totalSatoshisReceived += satoshisReceived;
+                ticketsRemaining -= ticketsExchanged;
+                createTransaction(bids[0].studentEmail, 'tickets', ticketsExchanged, 'Bid filled', timestamp);
+                bids.shift();
+            } else {
+                let ticketsExchanged = ticketsRemaining;
+                let satoshisPaid = ticketsExchanged * bids[0].price;
+                let satoshisReceived = Math.ceil(satoshisPaid * (1 - FEE));
+                totalSatoshisReceived += satoshisReceived;
+                ticketsRemaining -= ticketsExchanged;
+                createTransaction(bids[0].studentEmail, 'tickets', ticketsExchanged, 'Bid partially filled', timestamp);
+                bids[0].quantity -= ticketsExchanged;
+            }
+        } else {
+            insertAsk(ticketsRemaining, price, studentEmail);
+        }
+    }
+    createTransaction(studentEmail, 'tickets', -1 * quantity, 'Ask placed', timestamp);
+    if (totalSatoshisReceived > 0) {
+        let description = ticketsRemaining === 0 ? 'Ask filled' : 'Ask partially filled';
+        createTransaction(studentEmail, 'satoshis', totalSatoshisReceived, description, timestamp);
     }
 });
 
