@@ -14,6 +14,10 @@ export default class Footer extends React.Component {
                     Terms
                 </Link>
                 •
+                <Link to='/fees'>
+                    Fees
+                </Link>
+                •
                 <a href='https://github.com/thofmann/msoe-ticket-exchange'>
                     View Source
                 </a>
