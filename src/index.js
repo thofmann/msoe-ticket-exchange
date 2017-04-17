@@ -7,7 +7,7 @@ let app = express();
 
 app.use(express.static(path.join(__dirname, './public')));
 
-app.use(bodyParse.json());
+app.use(bodyParser.json());
 
 app.use('/api', api);
 
