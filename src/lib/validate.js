@@ -7,8 +7,8 @@ function validateEmail(email) {
     if (typeof email !== 'string') {
         throw new Error('An email address must be a string.');
     }
-    if (!validate.isEmail(email)) {
-        throw new Error('A valid email address must be provided.')
+    if (!validator.isEmail(email)) {
+        throw new Error('A valid email address must be provided.');
     }
 }
 

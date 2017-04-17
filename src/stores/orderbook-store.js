@@ -1,5 +1,4 @@
 import { Store } from 'consus-core/flux';
-import clone from 'consus-core/clone';
 
 class OrderbookStore extends Store {
 
@@ -7,7 +6,7 @@ class OrderbookStore extends Store {
 
 const store = new OrderbookStore();
 
-store.registerHandler('NEW_BID', data => {
+store.registerHandler('NEW_BID', () => {
     // TODO
 });
 
