@@ -14,7 +14,8 @@ export default class Register extends ListenerComponent {
             backupEmail: '',
             password: '',
             confirmPassword: '',
-            error: undefined
+            error: undefined,
+            completed: false
         });
     }
 
@@ -90,12 +91,15 @@ export default class Register extends ListenerComponent {
             });
             return;
         }
+        // TODO: overlay while submitting
         post('student/register', {
             studentEmail,
             backupEmail,
             password
         }).then(() => {
-            // TODO
+            this.setState({
+                completed: true
+            });
         }).catch(e => {
             this.setState({
                 error: e.message
@@ -104,6 +108,19 @@ export default class Register extends ListenerComponent {
     }
 
     render() {
+        if (this.state.completed) {
+            return (
+                <div id='register'>
+                    <Notice />
+                    <Header title='Register' />
+                    <div className='success'>
+                        You are almost finished!
+                        Please check your inboxes ({this.state.studentEmail} and {this.state.backupEmail}) to verify your email addresses.
+                    </div>
+                    <Footer />
+                </div>
+            );
+        }
         return (
             <div id='register'>
                 <Notice />
