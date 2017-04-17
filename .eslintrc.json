@@ -16,7 +16,7 @@
             4
         ],
         "no-console": [
-            "error"
+            "warn"
         ],
         "react/prop-types": "off",
         "semi": [
