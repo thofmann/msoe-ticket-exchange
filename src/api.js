@@ -1,5 +1,6 @@
 import express from 'express';
 import student from './api/student';
+import bid from './api/bid';
 
 let app = express();
 
@@ -26,5 +27,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/student', student);
+app.use('/bid', bid);
 
 export default app;
