@@ -21,7 +21,8 @@ app.use((req, res, next) => {
             response.message = message;
         }
         res.json(response);
-    }
+    };
+    next();
 });
 
 app.use('/student', student);
