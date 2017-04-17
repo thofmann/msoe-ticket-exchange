@@ -44,7 +44,8 @@ store.registerHandler('NEW_STUDENT', data => {
         balance: {
             tickets: 0,
             satoshis: 0
-        }
+        },
+        transactions: []
     });
 });
 
@@ -74,6 +75,16 @@ store.registerHandler('CONFIRM_BACKUP_EMAIL', data => {
         throw new Error('Invalid backup email confirmation token.');
     }
     student.confirmedBackupEmail = true;
+});
+
+store.registerHandler('NEW_BID', data => {
+    let student = students.get(data.studentEmail);
+    if (student === undefined) {
+        throw new Error('This student email address is not in use.');
+    }
+    if (student.balance.satoshis < data.quantity * data.price) {
+        throw new Error('You do not have enough satoshis to place this bid.');
+    }
 });
 
 export default store;
