@@ -5,7 +5,6 @@ export default class ListenerComponent extends React.Component {
     constructor() {
         super();
         this.state = this.getState();
-        this.onChangeBinded = this.onChange.bind(this);
     }
 
     // Override this method with an array of Stores to listen to
@@ -24,13 +23,13 @@ export default class ListenerComponent extends React.Component {
 
     componentDidMount() {
         this.getStores().forEach(store => {
-            store.addChangeListener(this.onChangeBinded);
+            store.addChangeListener(() => this.onChange);
         });
     }
 
     componentWillUnmount() {
         this.getStores().forEach(store => {
-            store.removeChangeListener(this.onChangeBinded);
+            store.removeChangeListener(() => this.onChange);
         });
     }
 
