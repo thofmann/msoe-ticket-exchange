@@ -1,6 +1,8 @@
 import { Store } from 'consus-core/flux';
 import clone from 'consus-core/clone';
 
+const FEE = 0.05;
+
 let students = new Map();
 let bids = []; // descending bid price
 let asks = []; // ascending ask price
@@ -13,12 +15,23 @@ function getStudentByBackupEmail(email) {
     }
 }
 
-function insertBid(price, quantity, studentEmail) {
+function createTransaction(studentEmail, currency, amount, description, timestamp) {
+    let student = students.get(studentEmail);
+    student.transactions.unshift({
+        currency,
+        amount,
+        description,
+        timestamp
+    });
+    student.balance[currency] -= amount;
+}
+
+function insertBid(quantity, price, studentEmail) {
     for (let i = 0; i <= bids.length; i++) {
         if (bids[i].price < price) {
             bids.splice(i, 0, {
-                price,
                 quantity,
+                price,
                 studentEmail
             });
         }
@@ -67,7 +80,7 @@ store.registerHandler('NEW_STUDENT', data => {
             tickets: 0,
             satoshis: 0
         },
-        transactions: []
+        transactions: [] // descending by timestamp
     });
 });
 
@@ -100,28 +113,48 @@ store.registerHandler('CONFIRM_BACKUP_EMAIL', data => {
 });
 
 store.registerHandler('NEW_BID', data => {
-    let student = students.get(data.studentEmail);
+    let studentEmail = data.studentEmail;
+    let quantity = data.quantity;
+    let price = data.price;
+    let timestamp = data.timestamp;
+    let student = students.get(studentEmail);
     if (student === undefined) {
         throw new Error('This student email address is not in use.');
     }
-    if (student.balance.satoshis < data.quantity * data.price) {
+    if (student.balance.satoshis < quantity * price) {
         throw new Error('You do not have enough satoshis to place this bid.');
     }
-    let remaining = data.quantity;
-    while (remaining > 0) {
-        if (asks[0].price <= data.price) {
-            if (asks[0].quantity <= remaining) {
-                remaining -= asks[0].quantity;
+    let totalSatoshisPaid = 0;
+    let ticketsRemaining = quantity;
+    while (ticketsRemaining > 0) {
+        if (asks[0].price <= price) {
+            if (asks[0].quantity <= ticketsRemaining) {
+                let ticketsExchanged = asks[0].quantity;
+                let satoshisPaid = ticketsExchanged * asks[0].price;
+                let satoshisReceived = Math.ceil(satoshisPaid * (1 - FEE));
+                totalSatoshisPaid += satoshisPaid;
+                ticketsRemaining -= ticketsExchanged;
+                createTransaction(asks[0].studentEmail, 'satoshis', satoshisReceived, 'Ask filled', timestamp);
                 asks.shift();
-                // TODO: credit students
             } else {
-                asks[0].quantity -= remaining;
-                remaining = 0;
-                // TODO: credit students
+                let ticketsExchanged = ticketsRemaining;
+                let satoshisPaid = ticketsExchanged * asks[0].price;
+                let satoshisReceived = Math.ceil(satoshisPaid * (1 - FEE));
+                totalSatoshisPaid += satoshisPaid;
+                ticketsRemaining -= ticketsExchanged;
+                createTransaction(asks[0].studentEmail, 'satoshis', satoshisReceived, 'Ask partially filled', timestamp);
+                asks[0].quantity -= ticketsExchanged;
             }
         } else {
-            insertBid(data.price, remaining, data.studentEmail);
+            totalSatoshisPaid += ticketsRemaining * price;
+            insertBid(ticketsRemaining, price, studentEmail);
         }
+    }
+    createTransaction(studentEmail, 'satoshis', -1 * totalSatoshisPaid, 'Bid placed', timestamp);
+    let ticketsBought = quantity - ticketsRemaining;
+    if (ticketsBought > 0) {
+        let description = ticketsBought === quantity ? 'Bid filled' : 'Bid partially filled';
+        createTransaction(studentEmail, 'tickets', ticketsBought, description, timestamp);
     }
 });
 
