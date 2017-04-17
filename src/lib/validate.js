@@ -25,3 +25,21 @@ export function validateBackupEmail(email) {
         throw new Error('A backup email address cannot be "@msoe.edu".');
     }
 }
+
+export function validatePassword(password) {
+    if (password === undefined) {
+        throw new Error('A password must be defined.');
+    }
+    if (typeof password !== 'string') {
+        throw new Error('A password must be a string.');
+    }
+    if (!validator.isLowercase(password)) {
+        throw new Error('A password must be lowercase.');
+    }
+    if (!validator.isHexadecimal(password)) {
+        throw new Error('A password must be hexadecimal.');
+    }
+    if (password.length !== 64) {
+        throw new Error('A password must be 64 characters (256 bits).');
+    }
+}

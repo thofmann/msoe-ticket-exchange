@@ -12,19 +12,30 @@ const rack = database.selectRack('actions');
 const promises = new Map();
 
 rack.subscribe(action => {
-    Dispatcher.handleAction(action.type, action.data);
-    let actionId = action.data.actionId;
-    if (promises.has(actionId)) {
-        promises.get(actionId)(actionId);
-        promises.delete(actionId);
+    try {
+        Dispatcher.handleAction(action.type, action.data);
+        let actionId = action.data.actionId;
+        if (promises.has(actionId)) {
+            promises.get(actionId).resolve(actionId);
+            promises.delete(actionId);
+        }
+    } catch(e) {
+        let actionId = action.data.actionId;
+        if (promises.has(actionId)) {
+            promises.get(actionId).reject(e);
+            promises.delete(actionId);
+        }
     }
 });
 
 export function publish(type, data) {
     data.actionId = crypto.randomBytes(32).toString('hex');
     data.timestamp = Math.floor(Date.now() / 1000);
-    return new Promise(resolve => {
-        promises.set(data.actionId, resolve);
+    return new Promise((resolve, reject) => {
+        promises.set(data.actionId, {
+            resolve,
+            reject
+        });
         rack.publish({
             type,
             data

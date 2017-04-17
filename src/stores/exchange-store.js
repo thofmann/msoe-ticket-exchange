@@ -75,21 +75,27 @@ class ExchangeStore extends Store {
 const store = new ExchangeStore();
 
 store.registerHandler('NEW_STUDENT', data => {
-    if (students.has(data.email)) {
+    let studentEmail = data.studentEmail;
+    let backupEmail = data.backupEmail;
+    let confirmStudentEmailToken = data.confirmStudentEmailToken;
+    let confirmBackupEmailToken = data.confirmBackupEmailToken;
+    let hashedPassword = data.hashedPassword;
+    let salt = data.salt;
+    if (students.has(studentEmail)) {
         throw new Error('This student email address is already in use.');
     }
-    if (getStudentByBackupEmail(data.backupEmail) !== undefined) {
+    if (getStudentByBackupEmail(backupEmail) !== undefined) {
         throw new Error('This backup email address is already in use.');
     }
-    students.set(data.studentEmail, {
-        studentEmail: data.studentEmail,
-        backupEmail: data.backupEmail,
+    students.set(studentEmail, {
+        studentEmail,
+        backupEmail,
         confirmedStudentEmail: false,
         confirmedBackupEmail: false,
-        confirmStudentEmailToken: data.confirmStudentEmailToken,
-        confirmBackupEmailToken: data.confirmBackupEmailToken,
-        hashedPassword: data.hashedPassword,
-        salt: data.salt,
+        confirmStudentEmailToken,
+        confirmBackupEmailToken,
+        hashedPassword,
+        salt,
         balance: {
             tickets: 0,
             satoshis: 0
