@@ -1,5 +1,5 @@
 import express from 'express';
-import student from './api/model';
+import student from './api/student';
 
 let app = express();
 
