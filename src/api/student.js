@@ -35,3 +35,5 @@ app.post('/register', (req, res) => {
         res.failureJson(e.message);
     });
 });
+
+export default app;
