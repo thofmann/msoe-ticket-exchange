@@ -94,6 +94,7 @@ export default class Register extends ListenerComponent {
                     Confirm password:
                     <input type='password' value={this.state.confirmPassword} onChange={e => this.updateConfirmPassword(e)} required />
                     <input type='submit' onClick={this.submit.bind(this)} />
+                    {this.state.error === undefined ? false : <div className='error'>{this.state.error}</div>}
                 </form>
                 <Footer />
             </div>
