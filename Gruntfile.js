@@ -90,7 +90,8 @@ module.exports = function(grunt) {
             coverage: ['coverage/', 'coverage.lcov', '.nyc_output/'],
             dist: ['.dist/'],
             test: ['.test/'],
-            inline: ['.dist/public/bundle.js', '.dist/public/bundle.css']
+            inline: ['.dist/public/bundle.js', '.dist/public/bundle.css'],
+            database: ['.oak/']
         }
     });
 
@@ -106,5 +107,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['clean:dist', 'babel:dist', 'browserify:dist', 'stylus', 'copy', 'inline', 'clean:inline']);
     grunt.registerTask('lint', ['eslint']);
     grunt.registerTask('test', ['lint', 'build', 'clean:test', 'babel:test', 'mochacli:all']);
+    grunt.registerTask('delete-database', ['clean:database']);
 
 };
