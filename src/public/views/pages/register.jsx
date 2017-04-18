@@ -116,7 +116,7 @@ export default class Register extends ListenerComponent {
                     <Header title='Register' />
                     <div className='success'>
                         You are almost finished!
-                        Please check your inboxes ({this.state.studentEmail} and {this.state.backupEmail}) to verify your email addresses.
+                        Please check your inboxes (<b>{this.state.studentEmail}</b> and <b>{this.state.backupEmail}</b>) to verify your email addresses.
                     </div>
                     <Footer />
                 </div>
