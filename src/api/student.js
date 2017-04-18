@@ -9,7 +9,7 @@ import {
     validateToken,
     validateAccept
 } from '../lib/validate';
-import { sendConfirmationToken } from '../lib/mail';
+import { sendConfirmationToken, sendAuthenticationToken } from '../lib/mail';
 
 let app = express();
 
@@ -97,11 +97,12 @@ app.post('/login', (req, res) => {
     }
     let authTokenA = createToken(); // token for valid credentials
     let authTokenB = createToken(); // tokens sent to email address
-    // TODO: email authTokenB to student email address
-    publish('NEW_AUTH_TOKENS', {
-        studentEmail,
-        authTokenA,
-        authTokenB
+    return sendAuthenticationToken(student.studentEmail, authTokenB).then(() => {
+        return publish('NEW_AUTH_TOKENS', {
+            studentEmail,
+            authTokenA,
+            authTokenB
+        });
     }).then(() => {
         res.successJson({
             authTokenA

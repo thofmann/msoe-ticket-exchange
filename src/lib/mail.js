@@ -42,3 +42,21 @@ ${config.mail.signature}
 MSOE Ticket Exchange`;
     return sendMail(recipients, subject, text);
 }
+
+export function sendAuthenticationToken(recipient, token) {
+    let recipients = [recipient];
+    let subject = 'Your login link';
+    let text = `Hello!
+
+To finish logging into your MSOE Ticket Exchange account, please visit this link:
+
+https://${config.domain}/complete-login?token=${token}
+
+If you did not make this login attempt, someone else has guessed your password. Please visit https://${config.domain}/login to log in and change your password immediately.
+
+Thank you,
+
+${config.mail.signature}
+MSOE Ticket Exchange`;
+    return sendMail(recipients, subject, text);
+}
