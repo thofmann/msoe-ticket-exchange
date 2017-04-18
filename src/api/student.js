@@ -9,6 +9,7 @@ import {
     validateToken,
     validateAccept
 } from '../lib/validate';
+import { sendConfirmationToken } from '../lib/mail';
 
 let app = express();
 
@@ -36,7 +37,10 @@ app.post('/register', (req, res) => {
         hashedPassword,
         salt
     }).then(() => {
-        // TODO: send confirmation emails after successfully creating student
+        return sendConfirmationToken(studentEmail, confirmStudentEmailToken);
+    }).then(() => {
+        return sendConfirmationToken(backupEmail, confirmBackupEmailToken);
+    }).then(() => {
         res.successJson();
     }).catch(e => {
         res.failureJson(e.message);

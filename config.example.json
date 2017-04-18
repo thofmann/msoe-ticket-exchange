@@ -1,0 +1,11 @@
+{
+    "mail": {
+        "username": "api",
+        "key": "MAILGUN_API_KEY",
+        "domain": "mail.example.com",
+        "sender": "MSOE Ticket Exchange <no-reply@example.com>",
+        "replyTo": "Bob <bob@example.org>",
+        "signature": "Bob"
+    },
+    "domain": "example.com"
+}
