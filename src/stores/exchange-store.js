@@ -104,6 +104,36 @@ store.registerHandler('NEW_STUDENT', data => {
     });
 });
 
+store.registerHandler('VERIFY_EMAIL', data => {
+    for (let student of students.values()) {
+        if (student.confirmStudentEmailToken === data.token) {
+            if (student.confirmedStudentEmail) {
+                throw new Error('This email address was already confirmed.');
+            }
+            if (data.accept) {
+                student.confirmedStudentEmail = true;
+            } else {
+                students.delete(student.studentEmail);
+            }
+            return;
+        }
+    }
+    for (let student of students.values()) {
+        if (student.confirmBackupEmailToken === data.token) {
+            if (student.confirmedBackupEmail) {
+                throw new Error('This email address was already confirmed.');
+            }
+            if (data.accept) {
+                student.confirmedBackupEmail = true;
+            } else {
+                students.delete(student.studentEmail);
+            }
+            return;
+        }
+    }
+    throw new Error('This verification token is invalid.');
+});
+
 store.registerHandler('CONFIRM_STUDENT_EMAIL', data => {
     let student = students.get(data.studentEmail);
     if (student === undefined) {

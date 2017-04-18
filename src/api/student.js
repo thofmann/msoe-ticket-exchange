@@ -1,7 +1,13 @@
 import express from 'express';
 import { publish } from '../lib/database';
 import { createToken, saltAndHash } from '../lib/crypto';
-import { validateStudentEmail, validateBackupEmail, validatePassword } from '../lib/validate';
+import {
+    validateStudentEmail,
+    validateBackupEmail,
+    validatePassword,
+    validateToken,
+    validateAccept
+} from '../lib/validate';
 
 let app = express();
 
@@ -30,6 +36,26 @@ app.post('/register', (req, res) => {
         salt
     }).then(() => {
         // TODO: send confirmation emails after successfully creating student
+        res.successJson();
+    }).catch(e => {
+        res.failureJson(e.message);
+    });
+});
+
+app.post('/verify', (req, res) => {
+    let accept = req.body.accept;
+    let token = req.body.token;
+    try {
+        validateAccept(accept);
+        validateToken(token);
+    } catch(e) {
+        res.failureJson(e.message);
+        return;
+    }
+    publish('VERIFY_EMAIL', {
+        accept,
+        token
+    }).then(() => {
         res.successJson();
     }).catch(e => {
         res.failureJson(e.message);

@@ -47,3 +47,27 @@ export function validatePassword(password) {
         throw new Error('A password must be 64 characters (256 bits).');
     }
 }
+
+export function validateToken(token) {
+    if (token === undefined) {
+        throw new Error('A token must be defined.');
+    }
+    if (typeof token !== 'string') {
+        throw new Error('A token must be a string.');
+    }
+    if (!validator.isLowercase(token)) {
+        throw new Error('A token must be lowercase.');
+    }
+    if (!validator.isHexadecimal(token)) {
+        throw new Error('A token must be hexadecimal.');
+    }
+    if (token.length !== 64) {
+        throw new Error('A token must be 64 characters (256 bits).');
+    }
+}
+
+export function validateAccept(accept) {
+    if (typeof accept !== 'boolean') {
+        throw new Error('The accept parameter must be a boolean.');
+    }
+}
