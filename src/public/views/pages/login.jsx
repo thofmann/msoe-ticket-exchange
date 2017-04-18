@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import { post } from '../../lib/api';
 import { hash } from '../../lib/crypto';
 import ListenerComponent from '../../lib/listener-component.jsx';
@@ -60,9 +61,12 @@ export default class Login extends ListenerComponent {
         post('student/login', {
             studentEmail,
             password: hash(password)
-        }).then(() => {
+        }).then(data => {
+            Cookies.set('authTokenA', data.authTokenA, {
+                expires: 7 // expires in 7 days; TODO: allow user to choose how long the tokens are valid
+            });
             this.setState({
-                completed: true
+                emailSent: true
             });
         }).catch(e => {
             this.setState({
@@ -78,7 +82,7 @@ export default class Login extends ListenerComponent {
                     <Notice />
                     <Header title='Log in' />
                     <div className='message'>
-                        Please check your inbox (<b>{this.state.email}</b>) for your login link.
+                        Please check your inbox (<b>{this.state.studentEmail}</b>) for your login link.
                     </div>
                     <Footer />
                 </div>

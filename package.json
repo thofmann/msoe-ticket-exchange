@@ -52,6 +52,7 @@
     "grunt-inline": "^0.3.6",
     "grunt-mocha-cli": "^3.0.0",
     "history": "^4.6.1",
+    "js-cookie": "^2.1.4",
     "nyc": "^10.2.0",
     "purecss": "^0.6.2",
     "qs": "^6.4.0",
