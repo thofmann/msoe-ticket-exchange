@@ -33,7 +33,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
     "babelify": "^7.3.0",
-    "body-parser": "^1.17.1",
     "chai": "^3.5.0",
     "consus-core": "^0.6.0",
     "cross-env": "^4.0.0",
@@ -46,7 +45,6 @@
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-compress": "^1.4.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-eslint": "0.0.5",
     "grunt-contrib-stylus": "^1.2.0",
     "grunt-eslint": "^19.0.0",
     "grunt-inline": "^0.3.6",
@@ -63,6 +61,7 @@
     "request": "^2.81.0"
   },
   "dependencies": {
+    "argon2": "^0.15.0",
     "body-parser": "^1.17.1",
     "mailgun.js": "^2.0.1",
     "oak-lite": "^1.0.0",

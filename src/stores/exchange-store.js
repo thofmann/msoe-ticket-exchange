@@ -80,7 +80,6 @@ store.registerHandler('NEW_STUDENT', data => {
     let confirmStudentEmailToken = data.confirmStudentEmailToken;
     let confirmBackupEmailToken = data.confirmBackupEmailToken;
     let hashedPassword = data.hashedPassword;
-    let salt = data.salt;
     if (students.has(studentEmail)) {
         throw new Error('This student email address is already in use.');
     }
@@ -95,7 +94,6 @@ store.registerHandler('NEW_STUDENT', data => {
         confirmStudentEmailToken,
         confirmBackupEmailToken,
         hashedPassword,
-        salt,
         balance: {
             tickets: 0,
             satoshis: 0
