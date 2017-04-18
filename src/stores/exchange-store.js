@@ -108,7 +108,7 @@ store.registerHandler('VERIFY_EMAIL', data => {
     for (let student of students.values()) {
         if (student.confirmStudentEmailToken === data.token) {
             if (student.confirmedStudentEmail) {
-                throw new Error('This email address was already confirmed.');
+                throw new Error('This email address was already verified.');
             }
             if (data.accept) {
                 student.confirmedStudentEmail = true;
@@ -121,7 +121,7 @@ store.registerHandler('VERIFY_EMAIL', data => {
     for (let student of students.values()) {
         if (student.confirmBackupEmailToken === data.token) {
             if (student.confirmedBackupEmail) {
-                throw new Error('This email address was already confirmed.');
+                throw new Error('This email address was already verified.');
             }
             if (data.accept) {
                 student.confirmedBackupEmail = true;
