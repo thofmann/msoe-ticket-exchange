@@ -1,16 +1,19 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 
 export default class Notice extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            accepted: localStorage.getItem('accepted-terms') === 'accepted'
+            accepted: Cookies.get('accepted-terms') === 'accepted'
         };
     }
 
     accept() {
-        localStorage.setItem('accepted-terms', 'accepted');
+        Cookies.set('accepted-terms', 'accepted', {
+            expires: 30 // expires in 30 days
+        });
         this.setState({
             accepted: true
         });
