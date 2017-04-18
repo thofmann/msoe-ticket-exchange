@@ -92,7 +92,7 @@ export default class Register extends ListenerComponent {
             });
             return;
         }
-        // TODO: overlay while submitting
+        // TODO: overlay while submitting?
         post('student/register', {
             studentEmail,
             backupEmail,
@@ -114,7 +114,7 @@ export default class Register extends ListenerComponent {
                 <div id='register'>
                     <Notice />
                     <Header title='Register' />
-                    <div className='success'>
+                    <div className='message'>
                         You are almost finished!
                         Please check your inboxes (<b>{this.state.studentEmail}</b> and <b>{this.state.backupEmail}</b>) to verify your email addresses.
                     </div>
