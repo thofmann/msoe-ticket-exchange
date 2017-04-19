@@ -1,7 +1,7 @@
 import express from 'express';
 import ExchangeStore from '../stores/exchange-store';
 import { publish } from '../lib/database';
-import { createToken, saltAndHash } from '../lib/crypto';
+import { createToken, hashPassword, verifyPassword } from '../lib/crypto';
 import {
     validateStudentEmail,
     validateBackupEmail,
@@ -25,17 +25,16 @@ app.post('/register', (req, res) => {
         res.failureJson(e.message);
         return;
     }
-    let salt = createToken();
     let confirmStudentEmailToken = createToken();
     let confirmBackupEmailToken = createToken();
-    let hashedPassword = saltAndHash(password, salt);
-    publish('NEW_STUDENT', {
-        studentEmail,
-        backupEmail,
-        confirmStudentEmailToken,
-        confirmBackupEmailToken,
-        hashedPassword,
-        salt
+    hashPassword(password).then(modularCryptFmt => {
+        return publish('NEW_STUDENT', {
+            studentEmail,
+            backupEmail,
+            confirmStudentEmailToken,
+            confirmBackupEmailToken,
+            hashedPassword: modularCryptFmt
+        });
     }).then(() => {
         return sendConfirmationToken(studentEmail, confirmStudentEmailToken);
     }).then(() => {
@@ -82,22 +81,16 @@ app.post('/login', (req, res) => {
         res.failureJson('A student could not be found with this email address.');
         return;
     }
-    if (!student.confirmedStudentEmail) {
-        res.failureJson('Please check your student email inbox to verify your address before logging in.');
-        return;
-    }
-    if (!student.confirmedBackupEmail) {
-        res.failureJson('Please check your backup email inbox to verify your address before logging in.');
-        return;
-    }
-    let salt = student.salt;
-    let hashedPassword = saltAndHash(password, salt);
-    if (hashedPassword !== student.hashedPassword) {
-        res.failureJson('Incorrect password. Please try again.');
-    }
     let authTokenA = createToken(); // token for valid credentials
     let authTokenB = createToken(); // tokens sent to email address
-    return sendAuthenticationToken(student.studentEmail, authTokenB).then(() => {
+    verifyPassword(password, student.hashedPassword).then(match => {
+        if (!match) {
+            res.failureJson('Incorrect password. Please try again.');
+            return;
+        } else {
+            return sendAuthenticationToken(student.studentEmail, authTokenB);
+        }
+    }).then(() => {
         return publish('NEW_AUTH_TOKENS', {
             studentEmail,
             authTokenA,
@@ -107,8 +100,6 @@ app.post('/login', (req, res) => {
         res.successJson({
             authTokenA
         });
-    }).catch(e => {
-        res.failureJson(e.message);
     });
 });
 
