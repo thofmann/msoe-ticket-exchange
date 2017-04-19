@@ -8,10 +8,8 @@ cache:
     - node_modules
 
 install:
-  - npm install
-
-before_script:
   - npm install -g node-gyp
+  - npm install
 
 script:
   - npm run coverage
