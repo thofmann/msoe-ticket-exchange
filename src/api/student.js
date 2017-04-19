@@ -29,6 +29,11 @@ app.post('/register', (req, res) => {
     let confirmStudentEmailToken = createToken();
     let confirmBackupEmailToken = createToken();
     let hashedPassword = saltAndHash(password, salt);
+    /*
+    TODO: limit information leakage (e.g. whether or not an email address is in use)
+    Maybe just give a successful message whether the registration was successful or not?
+    If they have access to their email address, they should be able to reject registrations by others and approve their own.
+     */
     publish('NEW_STUDENT', {
         studentEmail,
         backupEmail,
@@ -97,6 +102,11 @@ app.post('/login', (req, res) => {
     }
     let authTokenA = createToken(); // token for valid credentials
     let authTokenB = createToken(); // tokens sent to email address
+    /*
+    TODO: limit information leakage (e.g. whether or not an email address is in use, whether or not the password is correct)
+    Maybe just give a successful message whether the registration was successful or not?
+    Send an email for failed login attempts? Maybe limit to 1/day?
+     */
     return sendAuthenticationToken(student.studentEmail, authTokenB).then(() => {
         return publish('NEW_AUTH_TOKENS', {
             studentEmail,
