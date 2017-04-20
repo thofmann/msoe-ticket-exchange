@@ -74,7 +74,7 @@ export default class Login extends ListenerComponent {
                 studentEmail
             });
             Dispatcher.handleAction('UPDATE_AUTH_TOKEN_A', {
-                data.authTokenA
+                authTokenA: data.authTokenA
             });
             this.setState({
                 emailSent: true

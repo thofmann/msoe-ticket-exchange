@@ -10,7 +10,7 @@ import CompleteLogin from './pages/complete-login.jsx';
 import Terms from './pages/terms.jsx';
 import NotFound from './pages/not-found.jsx';
 
-const history = createBrowserHistory();
+export const history = createBrowserHistory();
 
 export default class App extends React.Component {
 

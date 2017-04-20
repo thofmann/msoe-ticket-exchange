@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import qs from 'qs';
 import { Dispatcher } from 'consus-core/flux';
 import { post } from '../../lib/api';
+import { history } from '../app.jsx';
 import CredentialsStore from '../../stores/credentials-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
@@ -41,8 +42,7 @@ export default class CompleteLogin extends ListenerComponent {
             Dispatcher.handleAction('UPDATE_AUTH_TOKEN_B', {
                 authTokenB
             });
-            // TODO: create an action to update the auth tokens with the new authTokenA and authTokenB
-            // TODO: Redirect to the dashboard after a couple of seconds
+            history.push('/dashboard');
         }).catch(() => {
             this.setState({
                 status: 'failed'
