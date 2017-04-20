@@ -1,5 +1,6 @@
 import React from 'react';
 import Cookies from 'js-cookie';
+import { Dispatcher } from 'consus-core/flux';
 import { post } from '../../lib/api';
 import { hash } from '../../lib/crypto';
 import ListenerComponent from '../../lib/listener-component.jsx';
@@ -73,7 +74,7 @@ export default class Login extends ListenerComponent {
                 studentEmail
             });
             Dispatcher.handleAction('UPDATE_AUTH_TOKEN_A', {
-                authTokenA
+                data.authTokenA
             });
             this.setState({
                 emailSent: true
