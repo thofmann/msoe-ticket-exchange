@@ -14,15 +14,18 @@ export default class Login extends ListenerComponent {
 
     constructor() {
         super();
-        if (CredentialsStore.isAuthenticated()) {
-            history.push('/dashboard');
-        }
         Object.assign(this.state, {
             studentEmail: '',
             password: '',
             emailSent: false,
             error: undefined
         });
+    }
+
+    componentDidMount() {
+        if (CredentialsStore.isAuthenticated()) {
+            history.push('/dashboard');
+        }
     }
 
     getStores() {

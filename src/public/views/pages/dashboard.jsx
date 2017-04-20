@@ -10,8 +10,7 @@ import Notice from '../components/notice.jsx';
 
 export default class Dashboard extends ListenerComponent {
 
-    constructor() {
-        super();
+    componentDidMount() {
         if (!CredentialsStore.isAuthenticated()) {
             history.push('/login');
         }

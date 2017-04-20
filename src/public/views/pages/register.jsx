@@ -25,6 +25,12 @@ export default class Register extends ListenerComponent {
         });
     }
 
+    componentDidMount() {
+        if (CredentialsStore.isAuthenticated()) {
+            history.push('/dashboard');
+        }
+    }
+
     getStores() {
         return [];
     }
