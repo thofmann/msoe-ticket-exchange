@@ -42,7 +42,7 @@ export function put(endpoint, data) {
 }
 
 function createWallet() {
-    return get(`wallet/${config.bitcoin.bcoin.wallet}`).catch(e => {
+    return get(`wallet/${config.bitcoin.bcoin.wallet}`).catch(() => {
         return put('wallet/working-watchtest', {
             type: 'pubkeyhash',
             watchOnly: true,
@@ -57,7 +57,7 @@ export function initialize() {
     });
 }
 
-export function getPaymentAddress(callback) {
+export function getPaymentAddress() {//callback) {
     // TODO: return a new payment address
     // TODO: call the `callback` when payments are received at this address
 }
