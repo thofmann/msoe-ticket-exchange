@@ -33,7 +33,7 @@ store.registerHandler('UPDATE_AUTH_TOKEN_A', data => {
     store.emitChange();
 });
 
-store.registerHandler('UPDATE_AUTH_TOKEN_A', data => {
+store.registerHandler('UPDATE_AUTH_TOKEN_B', data => {
     authTokenB = data.authTokenB;
     store.emitChange();
 });
