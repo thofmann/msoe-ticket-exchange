@@ -6,6 +6,7 @@ import Index from './pages/index.jsx';
 import Register from './pages/register.jsx';
 import VerifyEmail from './pages/verify-email.jsx';
 import Login from './pages/login.jsx';
+import CompleteLogin from './pages/complete-login.jsx';
 import Terms from './pages/terms.jsx';
 import NotFound from './pages/not-found.jsx';
 
@@ -21,6 +22,7 @@ export default class App extends React.Component {
                     <Route path='/register' component={Register} />
                     <Route path='/verify-email' component={VerifyEmail} />
                     <Route path='/login' component={Login} />
+                    <Route path='/complete-login' component={CompleteLogin} />
                     <Route path='/terms' component={Terms} />
                     <Route component={NotFound} />
                 </Switch>
