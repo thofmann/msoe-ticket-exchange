@@ -96,7 +96,7 @@ store.registerHandler('NEW_STUDENT', data => {
         confirmBackupEmailToken,
         hashedPassword,
         salt,
-        authTokens: [],
+        hashedAuthTokens: [],
         balance: {
             tickets: 0,
             satoshis: 0
@@ -168,9 +168,9 @@ store.registerHandler('NEW_AUTH_TOKENS', data => {
     if (student === undefined) {
         throw new Error('This student email address is not in use.');
     }
-    student.authTokens.push({
-        authTokenA: data.authTokenA,
-        authTokenB: data.authTokenB
+    student.hashedAuthTokens.push({
+        a: data.hashedAuthTokenA,
+        b: data.hashedAuthTokenB
     });
 });
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import ExchangeStore from '../stores/exchange-store';
 import { publish } from '../lib/database';
-import { createToken, saltAndHash } from '../lib/crypto';
+import { createToken, saltAndHash, hash } from '../lib/crypto';
 import {
     validateStudentEmail,
     validateBackupEmail,
@@ -102,6 +102,8 @@ app.post('/login', (req, res) => {
     }
     let authTokenA = createToken(); // token for valid credentials
     let authTokenB = createToken(); // tokens sent to email address
+    let hashedAuthTokenA = hash(authTokenA);
+    let hashedAuthTokenB = hash(authTokenB);
     /*
     TODO: limit information leakage (e.g. whether or not an email address is in use, whether or not the password is correct)
     Maybe just give a successful message whether the registration was successful or not?
@@ -110,8 +112,8 @@ app.post('/login', (req, res) => {
     return sendAuthenticationToken(student.studentEmail, authTokenB).then(() => {
         return publish('NEW_AUTH_TOKENS', {
             studentEmail,
-            authTokenA,
-            authTokenB
+            hashedAuthTokenA,
+            hashedAuthTokenB
         });
     }).then(() => {
         res.successJson({
@@ -134,13 +136,15 @@ app.post('/verify-credentials', (req, res) => {
         res.failureJson(e.message);
         return;
     }
+    let hashedAuthTokenA = hash(authTokenA);
+    let hashedAuthTokenB = hash(authTokenB);
     let student = ExchangeStore.getStudent(studentEmail);
     if (student === undefined) {
         res.failureJson('A student could not be found with this email address.');
         return;
     }
-    if (student.authTokens.findIndex(t => t.authTokenA === authTokenA && t.authTokenB === authTokenB) === -1) {
-        res.failureJson('Authentication tokens are invalid are expired.');
+    if (student.hashedAuthTokens.findIndex(h => h.a === hashedAuthTokenA && h.b === hashedAuthTokenB) === -1) {
+        res.failureJson('Authentication tokens are invalid or expired.');
         return;
     }
     res.successJson();
