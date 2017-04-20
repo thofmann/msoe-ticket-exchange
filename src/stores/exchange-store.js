@@ -103,6 +103,7 @@ store.registerHandler('NEW_STUDENT', data => {
         },
         transactions: [] // descending by timestamp
     });
+    store.emitChange();
 });
 
 store.registerHandler('VERIFY_EMAIL', data => {
@@ -116,6 +117,7 @@ store.registerHandler('VERIFY_EMAIL', data => {
             } else {
                 students.delete(student.studentEmail);
             }
+            store.emitChange();
             return;
         }
     }
@@ -129,6 +131,7 @@ store.registerHandler('VERIFY_EMAIL', data => {
             } else {
                 students.delete(student.studentEmail);
             }
+            store.emitChange();
             return;
         }
     }
@@ -147,6 +150,7 @@ store.registerHandler('CONFIRM_STUDENT_EMAIL', data => {
         throw new Error('Invalid student email confirmation token.');
     }
     student.confirmedStudentEmail = true;
+    store.emitChange();
 });
 
 store.registerHandler('CONFIRM_BACKUP_EMAIL', data => {
@@ -161,6 +165,7 @@ store.registerHandler('CONFIRM_BACKUP_EMAIL', data => {
         throw new Error('Invalid backup email confirmation token.');
     }
     student.confirmedBackupEmail = true;
+    store.emitChange();
 });
 
 store.registerHandler('NEW_AUTH_TOKENS', data => {
@@ -172,6 +177,7 @@ store.registerHandler('NEW_AUTH_TOKENS', data => {
         a: data.hashedAuthTokenA,
         b: data.hashedAuthTokenB
     });
+    store.emitChange();
 });
 
 store.registerHandler('NEW_BID', data => {
@@ -218,6 +224,7 @@ store.registerHandler('NEW_BID', data => {
         let description = ticketsBought === quantity ? 'Bid filled' : 'Bid partially filled';
         createTransaction(studentEmail, 'tickets', ticketsBought, description, timestamp);
     }
+    store.emitChange();
 });
 
 store.registerHandler('NEW_ASK', data => {
@@ -262,6 +269,7 @@ store.registerHandler('NEW_ASK', data => {
         let description = ticketsRemaining === 0 ? 'Ask filled' : 'Ask partially filled';
         createTransaction(studentEmail, 'satoshis', totalSatoshisReceived, description, timestamp);
     }
+    store.emitChange();
 });
 
 export default store;

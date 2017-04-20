@@ -15,6 +15,7 @@ const store = new OrderBookStore();
 
 store.registerHandler('NEW_ANNOUNCEMENT', data => {
     announcements.push(data.announcement);
+    store.emitChange();
 });
 
 export default store;

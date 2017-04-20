@@ -69,6 +69,12 @@ export default class Login extends ListenerComponent {
             Cookies.set('studentEmail', studentEmail, {
                 expires: 7 // expires in 7 days
             });
+            Dispatcher.handleAction('UPDATE_STUDENT_EMAIL', {
+                studentEmail
+            });
+            Dispatcher.handleAction('UPDATE_AUTH_TOKEN_A', {
+                authTokenA
+            });
             this.setState({
                 emailSent: true
             });

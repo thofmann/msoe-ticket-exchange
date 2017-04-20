@@ -20,10 +20,12 @@ const store = new OrderBookStore();
 
 store.registerHandler('UPDATE_BIDS', data => {
     bids = data.bids;
+    store.emitChange();
 });
 
 store.registerHandler('UPDATE_ASKS', data => {
     asks = data.asks;
+    store.emitChange();
 });
 
 export default store;

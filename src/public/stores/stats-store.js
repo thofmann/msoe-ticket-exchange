@@ -24,14 +24,17 @@ const store = new StatsStore();
 
 store.registerHandler('UPDATE_STUDENTS_REGISTERED', data => {
     studentsRegistered = data.studentsRegistered;
+    store.emitChange();
 });
 
 store.registerHandler('UPDATE_TICKETS_EXCHANGED', data => {
     ticketsExchanged = data.ticketsExchanged;
+    store.emitChange();
 });
 
 store.registerHandler('UPDATE_LAST_PRICE', data => {
     lastPrice = data.lastPrice;
+    store.emitChange();
 });
 
 export default store;

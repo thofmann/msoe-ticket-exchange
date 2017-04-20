@@ -1,7 +1,9 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import qs from 'qs';
+import { Dispatcher } from 'consus-core/flux';
 import { post } from '../../lib/api';
+import CredentialsStore from '../../stores/credentials-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
@@ -12,9 +14,8 @@ export default class CompleteLogin extends ListenerComponent {
     constructor() {
         super();
         var params = qs.parse(window.location.search.slice(1));
-        // TODO: get these from the credentials store (which will get them from cookies)
-        let studentEmail = Cookies.get('studentEmail');
-        let authTokenA = Cookies.get('authTokenA');
+        let studentEmail = CredentialsStore.getStudentEmail();
+        let authTokenA = CredentialsStore.getAuthTokenA();
         let authTokenB = params.token;
         if (typeof typeof authTokenA !== 'string' || typeof authTokenB !== 'string') {
             this.state = {
@@ -37,8 +38,9 @@ export default class CompleteLogin extends ListenerComponent {
             this.setState({
                 status: 'completed'
             });
-            // TODO: create a Credentials/Authentication store
-            // TODO: Initialize auth tokens in store with the cookie values
+            Dispatcher.handleAction('UPDATE_AUTH_TOKEN_B', {
+                authTokenB
+            });
             // TODO: create an action to update the auth tokens with the new authTokenA and authTokenB
             // TODO: Redirect to the dashboard after a couple of seconds
         }).catch(() => {
