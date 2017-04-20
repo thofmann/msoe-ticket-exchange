@@ -1,5 +1,7 @@
 import React from 'react';
 import Cookies from 'js-cookie';
+import CredentialsStore from '../../stores/credentials-store';
+import { history } from '../app.jsx';
 import { Dispatcher } from 'consus-core/flux';
 import { post } from '../../lib/api';
 import { hash } from '../../lib/crypto';
@@ -12,6 +14,9 @@ export default class Login extends ListenerComponent {
 
     constructor() {
         super();
+        if (CredentialsStore.isAuthenticated()) {
+            history.push('/dashboard');
+        }
         Object.assign(this.state, {
             studentEmail: '',
             password: '',

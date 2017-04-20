@@ -1,4 +1,6 @@
 import React from 'react';
+import CredentialsStore from '../../stores/credentials-store';
+import { history } from '../app.jsx';
 import { post } from '../../lib/api';
 import { hash } from '../../lib/crypto';
 import ListenerComponent from '../../lib/listener-component.jsx';
@@ -10,6 +12,9 @@ export default class Register extends ListenerComponent {
 
     constructor() {
         super();
+        if (CredentialsStore.isAuthenticated()) {
+            history.push('/dashboard');
+        }
         Object.assign(this.state, {
             studentEmail: '',
             backupEmail: '',
