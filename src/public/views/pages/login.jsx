@@ -64,6 +64,7 @@ export default class Login extends ListenerComponent {
         }).then(data => {
             Cookies.set('authTokenA', data.authTokenA, {
                 expires: 7 // expires in 7 days; TODO: allow user to choose how long the tokens are valid
+                // TODO: use 'secure' flag
             });
             this.setState({
                 emailSent: true
