@@ -19,6 +19,10 @@ class CredentialsStore extends Store {
         return authTokenB;
     }
 
+    isAuthenticated() {
+        return studentEmail !== undefined && authTokenA !== undefined && authTokenB !== undefined;
+    }
+
 }
 
 const store = new CredentialsStore();
