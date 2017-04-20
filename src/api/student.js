@@ -122,4 +122,28 @@ app.post('/login', (req, res) => {
     });
 });
 
+app.post('/verify-credentials', (req, res) => {
+    let studentEmail = req.body.studentEmail;
+    let authTokenA = req.body.authTokenA;
+    let authTokenB = req.body.authTokenB;
+    try {
+        validateStudentEmail(studentEmail);
+        validateToken(authTokenA);
+        validateToken(authTokenB);
+    } catch(e) {
+        res.failureJson(e.message);
+        return;
+    }
+    let student = ExchangeStore.getStudent(studentEmail);
+    if (student === undefined) {
+        res.failureJson('A student could not be found with this email address.');
+        return;
+    }
+    if (student.authTokens.findIndex(t => t.authTokenA === authTokenA && t.authTokenB === authTokenB) === -1) {
+        res.failureJson('Authentication tokens are invalid are expired.');
+        return;
+    }
+    res.successJson();
+});
+
 export default app;

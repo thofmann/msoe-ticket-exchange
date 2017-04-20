@@ -12,9 +12,11 @@ export default class CompleteLogin extends ListenerComponent {
     constructor() {
         super();
         var params = qs.parse(window.location.search.slice(1));
+        // TODO: get these from the credentials store (which will get them from cookies)
+        let studentEmail = Cookies.get('studentEmail');
         let authTokenA = Cookies.get('authTokenA');
         let authTokenB = params.token;
-        if (typeof authTokenA !== 'string' || typeof authTokenB !== 'string') {
+        if (typeof typeof authTokenA !== 'string' || typeof authTokenB !== 'string') {
             this.state = {
                 status: 'failed'
             };
@@ -23,7 +25,8 @@ export default class CompleteLogin extends ListenerComponent {
         this.state = {
             status: 'pending'
         };
-        post('student/complete-login', {
+        post('student/verify-credentials', {
+            studentEmail,
             authTokenA,
             authTokenB
         }).then(() => {

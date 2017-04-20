@@ -96,6 +96,7 @@ store.registerHandler('NEW_STUDENT', data => {
         confirmBackupEmailToken,
         hashedPassword,
         salt,
+        authTokens: [],
         balance: {
             tickets: 0,
             satoshis: 0
@@ -160,6 +161,17 @@ store.registerHandler('CONFIRM_BACKUP_EMAIL', data => {
         throw new Error('Invalid backup email confirmation token.');
     }
     student.confirmedBackupEmail = true;
+});
+
+store.registerHandler('NEW_AUTH_TOKENS', data => {
+    let student = students.get(data.studentEmail);
+    if (student === undefined) {
+        throw new Error('This student email address is not in use.');
+    }
+    student.authTokens.push({
+        authTokenA: data.authTokenA,
+        authTokenB: data.authTokenB
+    });
 });
 
 store.registerHandler('NEW_BID', data => {

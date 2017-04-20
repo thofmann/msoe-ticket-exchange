@@ -66,6 +66,9 @@ export default class Login extends ListenerComponent {
                 expires: 7 // expires in 7 days; TODO: allow user to choose how long the tokens are valid
                 // TODO: use 'secure' flag
             });
+            Cookies.set('studentEmail', studentEmail, {
+                expires: 7 // expires in 7 days
+            });
             this.setState({
                 emailSent: true
             });
