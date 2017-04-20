@@ -36,3 +36,28 @@ export function get(endpoint, data) {
 export function post(endpoint, data) {
     return call(endpoint, 'POST', undefined, data);
 }
+
+export function put(endpoint, data) {
+    return call(endpoint, 'PUT', data);
+}
+
+function createWallet() {
+    return get(`wallet/${config.bitcoin.bcoin.wallet}`).catch(e => {
+        return put('wallet/working-watchtest', {
+            type: 'pubkeyhash',
+            watchOnly: true,
+            accountKey: config.bitcoin.xpubkey
+        });
+    });
+}
+
+export function initialize() {
+    return createWallet().then(() => {
+        // TODO: Start listening for payments
+    });
+}
+
+export function getPaymentAddress(callback) {
+    // TODO: return a new payment address
+    // TODO: call the `callback` when payments are received at this address
+}
