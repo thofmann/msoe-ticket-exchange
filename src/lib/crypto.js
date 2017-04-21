@@ -9,8 +9,19 @@ export function hash(message) {
 }
 
 export function saltAndHash(password, salt) {
-    password = Buffer.from(password, 'hex');
-    salt = Buffer.from(password, 'hex');
-    let concatenated = Buffer.concat([password, salt]);
-    return crypto.createHash('sha256').update(concatenated).digest('hex');
+    return new Promise((resolve, reject) => {
+        if (salt === undefined || Buffer.byteLength(salt) < 8) {
+            salt = crypto.randomBytes(32);
+        }
+        crypto.pbkdf2(password, salt, 1e5, 512, 'sha256', (err, key) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve({
+                    hash: key.toString('hex'),
+                    salt
+                });
+            }
+        });
+    });
 }
