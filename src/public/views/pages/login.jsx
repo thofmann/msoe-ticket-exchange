@@ -67,10 +67,10 @@ export default class Login extends ListenerComponent {
             return;
         }
         // TODO: overlay while submitting?
-        hash(password).then(hash => {
+        hash(password, studentEmail).then(hashedPassword => {
             return post('student/login', {
                 studentEmail,
-                password: hash
+                password: hashedPassword
             });
         }).then(data => {
             Cookies.set('authTokenA', data.authTokenA, {
