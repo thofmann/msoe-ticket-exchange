@@ -25,22 +25,23 @@ app.post('/register', (req, res) => {
         res.failureJson(e.message);
         return;
     }
-    let salt = createToken();
-    let confirmStudentEmailToken = createToken();
-    let confirmBackupEmailToken = createToken();
-    let hashedPassword = saltAndHash(password, salt);
     /*
     TODO: limit information leakage (e.g. whether or not an email address is in use)
     Maybe just give a successful message whether the registration was successful or not?
     If they have access to their email address, they should be able to reject registrations by others and approve their own.
      */
-    publish('NEW_STUDENT', {
-        studentEmail,
-        backupEmail,
-        confirmStudentEmailToken,
-        confirmBackupEmailToken,
-        hashedPassword,
-        salt
+    let salt = createToken();
+    let confirmStudentEmailToken = createToken();
+    let confirmBackupEmailToken = createToken();
+    saltAndHash(password, salt).then(({ salt, hash }) => {
+        return publish('NEW_STUDENT', {
+            studentEmail,
+            backupEmail,
+            confirmStudentEmailToken,
+            confirmBackupEmailToken,
+            hashedPassword: hash,
+            salt
+        });
     }).then(() => {
         return sendConfirmationToken(studentEmail, confirmStudentEmailToken);
     }).then(() => {
