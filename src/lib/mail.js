@@ -30,11 +30,11 @@ export function sendConfirmationToken(recipient, token) {
 
 Someone registered on the MSOE Ticket Exchange with your email address. If this was you, please confirm your email address by visiting this link:
 
-https://${config.domain}/verify-email?token=${token}&accept=true
+${config.server.protocol}://${config.server.domain}/verify-email?token=${token}&accept=true
 
 If this was not you, we will discard this account in 24 hours. You may also discard the account immediately by visiting this link:
 
-https://${config.domain}/verify-email?token=${token}&accept=false
+${config.server.protocol}://${config.server.domain}/verify-email?token=${token}&accept=false
 
 Thank you,
 
@@ -50,9 +50,9 @@ export function sendAuthenticationToken(recipient, token) {
 
 To finish logging into your MSOE Ticket Exchange account, please visit this link:
 
-https://${config.domain}/complete-login?token=${token}
+${config.server.protocol}://${config.server.domain}/complete-login?token=${token}
 
-If you did not make this login attempt, someone else has guessed your password. Please visit https://${config.domain}/login to log in and change your password immediately.
+If you did not make this login attempt, someone else has guessed your password. Please visit ${config.server.protocol}://${config.server.domain}/login to log in and change your password immediately.
 
 Thank you,
 

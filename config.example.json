@@ -17,5 +17,8 @@
         },
         "xpubkey": "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8"
     },
-    "domain": "example.com"
+    "server": {
+        "domain": "localhost",
+        "port": 8080
+    }
 }
