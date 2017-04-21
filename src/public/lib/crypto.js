@@ -1,5 +1,14 @@
 import crypto from 'crypto';
 
 export function hash(password) {
-    return crypto.createHash('sha256').update(password).digest('hex');
+    return new Promise((resolve, reject) => {
+        let salt = crypto.randomBytes(8);
+        crypto.pbkdf2(password, salt, 1e3, 256, 'sha256', (err, key) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(key.toString('hex'));
+            }
+        });
+    });
 }

@@ -59,9 +59,11 @@ export default class Login extends ListenerComponent {
             return;
         }
         // TODO: overlay while submitting?
-        post('student/login', {
-            studentEmail,
-            password: hash(password)
+        hash(password).then(hash => {
+            return post('student/login', {
+                studentEmail,
+                password: hash
+            });
         }).then(data => {
             Cookies.set('authTokenA', data.authTokenA, {
                 expires: 7 // expires in 7 days; TODO: allow user to choose how long the tokens are valid
@@ -74,7 +76,7 @@ export default class Login extends ListenerComponent {
                 studentEmail
             });
             Dispatcher.handleAction('UPDATE_AUTH_TOKEN_A', {
-                data.authTokenA
+                authTokenA: data.authTokenA
             });
             this.setState({
                 emailSent: true

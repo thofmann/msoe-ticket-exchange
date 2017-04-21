@@ -93,10 +93,12 @@ export default class Register extends ListenerComponent {
             return;
         }
         // TODO: overlay while submitting?
-        post('student/register', {
-            studentEmail,
-            backupEmail,
-            password: hash(password)
+        hash(hash => {
+            return post('student/register', {
+                studentEmail,
+                backupEmail,
+                password: hash
+            });
         }).then(() => {
             this.setState({
                 completed: true
