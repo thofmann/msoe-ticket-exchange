@@ -4,7 +4,7 @@ import CredentialsStore from '../../stores/credentials-store';
 import { history } from '../app.jsx';
 import { Dispatcher } from 'consus-core/flux';
 import { post } from '../../lib/api';
-import { hash } from '../../lib/crypto';
+import { saltAndHash } from '../../lib/crypto';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
@@ -67,7 +67,7 @@ export default class Login extends ListenerComponent {
             return;
         }
         // TODO: overlay while submitting?
-        hash(password, studentEmail).then(hashedPassword => {
+        saltAndHash(password, studentEmail).then(hashedPassword => {
             return post('student/login', {
                 studentEmail,
                 password: hashedPassword

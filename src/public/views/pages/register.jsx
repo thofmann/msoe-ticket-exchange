@@ -2,7 +2,7 @@ import React from 'react';
 import CredentialsStore from '../../stores/credentials-store';
 import { history } from '../app.jsx';
 import { post } from '../../lib/api';
-import { hash } from '../../lib/crypto';
+import { saltAndHash } from '../../lib/crypto';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
 import Footer from '../components/footer.jsx';
@@ -104,11 +104,11 @@ export default class Register extends ListenerComponent {
             return;
         }
         // TODO: overlay while submitting?
-        hash(password, studentEmail).then(hash => {
+        saltAndHash(password, studentEmail).then(hashedPassword => {
             return post('student/register', {
                 studentEmail,
                 backupEmail,
-                password: hash
+                password: hashedPassword
             });
         }).then(() => {
             this.setState({
