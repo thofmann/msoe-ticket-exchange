@@ -105,9 +105,6 @@ export default class Register extends ListenerComponent {
         }
         // TODO: overlay while submitting?
         saltAndHash(password, studentEmail).then(hashedPassword => {
-            console.log(password);
-            console.log(studentEmail);
-            console.log(hashedPassword);
             return post('student/register', {
                 studentEmail,
                 backupEmail,

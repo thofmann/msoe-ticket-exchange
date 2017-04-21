@@ -23,13 +23,13 @@ export default class ListenerComponent extends React.Component {
 
     componentDidMount() {
         this.getStores().forEach(store => {
-            store.addChangeListener(() => this.onChange);
+            store.addChangeListener(() => this.onChange());
         });
     }
 
     componentWillUnmount() {
         this.getStores().forEach(store => {
-            store.removeChangeListener(() => this.onChange);
+            store.removeChangeListener(() => this.onChange());
         });
     }
 
