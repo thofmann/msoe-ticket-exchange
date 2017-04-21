@@ -10,16 +10,15 @@ export function hash(message) {
 
 export function saltAndHash(password, salt) {
     return new Promise((resolve, reject) => {
-        if (salt === undefined || Buffer.byteLength(salt) < 8) {
-            salt = crypto.randomBytes(32);
-        }
+        password = Buffer.from(password, 'hex');
+        salt = Buffer.from(salt, 'hex');
         crypto.pbkdf2(password, salt, 1e5, 512, 'sha256', (err, key) => {
             if (err) {
                 reject(err);
             } else {
                 resolve({
                     hash: key.toString('hex'),
-                    salt
+                    salt: salt.toString('hex')
                 });
             }
         });
