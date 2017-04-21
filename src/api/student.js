@@ -33,13 +33,13 @@ app.post('/register', (req, res) => {
     let salt = createToken();
     let confirmStudentEmailToken = createToken();
     let confirmBackupEmailToken = createToken();
-    saltAndHash(password, salt).then(({ salt, hash }) => {
+    saltAndHash(password, salt).then(hashedPassword => {
         return publish('NEW_STUDENT', {
             studentEmail,
             backupEmail,
             confirmStudentEmailToken,
             confirmBackupEmailToken,
-            hashedPassword: hash,
+            hashedPassword,
             salt
         });
     }).then(() => {
@@ -96,21 +96,22 @@ app.post('/login', (req, res) => {
         res.failureJson('Please check your backup email inbox to verify your address before logging in.');
         return;
     }
-    let salt = student.salt;
-    let hashedPassword = saltAndHash(password, salt);
-    if (hashedPassword !== student.hashedPassword) {
-        res.failureJson('Incorrect password. Please try again.');
-    }
     let authTokenA = createToken(); // token for valid credentials
     let authTokenB = createToken(); // tokens sent to email address
     let hashedAuthTokenA = hash(authTokenA);
     let hashedAuthTokenB = hash(authTokenB);
+    let salt = student.salt;
     /*
     TODO: limit information leakage (e.g. whether or not an email address is in use, whether or not the password is correct)
     Maybe just give a successful message whether the registration was successful or not?
     Send an email for failed login attempts? Maybe limit to 1/day?
      */
-    return sendAuthenticationToken(student.studentEmail, authTokenB).then(() => {
+    saltAndHash(password, salt).then(hashedPassword => {
+        if (hashedPassword !== student.hashedPassword) {
+            res.failureJson('Incorrect password. Please try again.');
+        }
+        return sendAuthenticationToken(student.studentEmail, authTokenB);
+    }).then(() => {
         return publish('NEW_AUTH_TOKENS', {
             studentEmail,
             hashedAuthTokenA,
@@ -123,6 +124,7 @@ app.post('/login', (req, res) => {
     }).catch(e => {
         res.failureJson(e.message);
     });
+
 });
 
 app.post('/verify-credentials', (req, res) => {

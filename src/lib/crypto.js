@@ -16,10 +16,7 @@ export function saltAndHash(password, salt) {
             if (err) {
                 reject(err);
             } else {
-                resolve({
-                    hash: key.toString('hex'),
-                    salt: salt.toString('hex')
-                });
+                resolve(key.toString('hex'));
             }
         });
     });
