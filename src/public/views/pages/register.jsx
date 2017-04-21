@@ -104,7 +104,7 @@ export default class Register extends ListenerComponent {
             return;
         }
         // TODO: overlay while submitting?
-        hash(hash => {
+        hash(password).then(hash => {
             return post('student/register', {
                 studentEmail,
                 backupEmail,
