@@ -2,6 +2,7 @@ import React from 'react';
 import OrderBookStore from '../../stores/order-book-store';
 import StatsStore from '../../stores/stats-store';
 import AnnouncementStore from '../../stores/announcement-store';
+import CredentialsStore from '../../stores/credentials-store';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
 import OrderBook from '../components/order-book.jsx';
@@ -17,7 +18,8 @@ export default class Index extends ListenerComponent {
         return [
             StatsStore,
             OrderBookStore,
-            AnnouncementStore
+            AnnouncementStore,
+            CredentialsStore
         ];
     }
 
@@ -28,7 +30,8 @@ export default class Index extends ListenerComponent {
             announcements: AnnouncementStore.getAnnouncements(),
             studentsRegistered: StatsStore.getStudentsRegistered(),
             ticketsExchanged: StatsStore.getTicketsExchanged(),
-            lastPrice: StatsStore.getLastPrice()
+            lastPrice: StatsStore.getLastPrice(),
+            authenticated: CredentialsStore.isAuthenticated()
         };
     }
 
@@ -36,7 +39,7 @@ export default class Index extends ListenerComponent {
         return (
             <div id='index'>
                 <Notice />
-                <Header title='Buy and sell MSOE graduation tickets' />
+                <Header title='Buy and sell MSOE graduation tickets' authenticated={this.state.authenticated} />
                 <div className='stats pure-g'>
                     <Stat number={this.state.studentsRegistered} name='Students registered' />
                     <Stat number={this.state.ticketsExchanged} name='Tickets exchanged' />

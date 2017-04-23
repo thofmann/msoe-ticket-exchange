@@ -42,4 +42,11 @@ store.registerHandler('UPDATE_AUTH_TOKEN_B', data => {
     store.emitChange();
 });
 
+store.registerHandler('LOGOUT', () => {
+    studentEmail = undefined;
+    authTokenA = undefined;
+    authTokenB = undefined;
+    store.emitChange();
+});
+
 export default store;

@@ -101,7 +101,7 @@ export default class Login extends ListenerComponent {
             return (
                 <div id='login'>
                     <Notice />
-                    <Header title='Log in' />
+                    <Header title='Log in' authenticated={false} />
                     <div className='message'>
                         Please check your inbox (<b>{this.state.studentEmail}</b>) for your login link.
                     </div>

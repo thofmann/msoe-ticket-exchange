@@ -57,7 +57,7 @@ export default class VerifyEmail extends React.Component {
         return (
             <div id='verify-email'>
                 <Notice />
-                <Header title='Verify Email' />
+                <Header title='Verify Email' authenticated={false} />
                 <div className='message'>
                     {message}
                 </div>

@@ -33,7 +33,7 @@ export default class Dashboard extends ListenerComponent {
         return (
             <div id='dashboard'>
                 <Notice />
-                <Header title='Dashboard' />
+                <Header title='Dashboard' authenticated={true} />
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Footer />
             </div>

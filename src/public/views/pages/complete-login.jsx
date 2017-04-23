@@ -51,11 +51,15 @@ export default class CompleteLogin extends ListenerComponent {
     }
 
     getStores() {
-        return [];
+        return [
+            CredentialsStore
+        ];
     }
 
     getState() {
-        return {};
+        return {
+            authenticated: CredentialsStore.isAuthenticated()
+        };
     }
 
     render() {
@@ -70,7 +74,7 @@ export default class CompleteLogin extends ListenerComponent {
         return (
             <div id='complete-login'>
                 <Notice />
-                <Header title='Complete login' />
+                <Header title='Complete login' authenticated={this.state.authenticated} />
                 <div className='message'>
                     {message}
                 </div>

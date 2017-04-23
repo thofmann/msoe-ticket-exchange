@@ -126,7 +126,7 @@ export default class Register extends ListenerComponent {
             return (
                 <div id='register'>
                     <Notice />
-                    <Header title='Register' />
+                    <Header title='Register' authenticated={false} />
                     <div className='message'>
                         You are almost finished!
                         Please check your inboxes (<b>{this.state.studentEmail}</b> and <b>{this.state.backupEmail}</b>) to verify your email addresses.
@@ -138,7 +138,7 @@ export default class Register extends ListenerComponent {
         return (
             <div id='register'>
                 <Notice />
-                <Header title='Register' />
+                <Header title='Register' authenticated={false} />
                 <form>
                     Student email address:
                     <input type='email' value={this.state.studentEmail} onChange={e => this.updateStudentEmail(e)} required />
