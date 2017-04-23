@@ -13,9 +13,7 @@ export default function(server) {
     });
 
     ExchangeStore.addChangeListener(() => {
-        let newStudentsRegistered = ExchangeStore.getRegisteredStudentsCount();
-        if (newStudentsRegistered !== studentsRegistered) {
-            studentsRegistered = newStudentsRegistered;
+        if (studentsRegistered !== (studentsRegistered = ExchangeStore.getRegisteredStudentsCount())) {
             io.emit('update students registered', studentsRegistered);
         }
     });
