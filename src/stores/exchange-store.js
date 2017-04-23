@@ -76,6 +76,10 @@ class ExchangeStore extends Store {
         }).length;
     }
 
+    getTicketsExchangedCount() {
+        return 0; // TODO
+    }
+
 }
 
 const store = new ExchangeStore();

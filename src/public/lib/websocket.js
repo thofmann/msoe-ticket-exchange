@@ -11,4 +11,10 @@ export default function() {
         });
     });
 
+    socket.on('update tickets exchanged', ticketsExchanged => {
+        Dispatcher.handleAction('UPDATE_TICKETS_EXCHANGED', {
+            ticketsExchanged
+        });
+    });
+
 }
