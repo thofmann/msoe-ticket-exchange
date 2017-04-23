@@ -2,7 +2,7 @@ import request from 'request';
 
 function call(endpoint, method, qs, json) {
     let options = {
-        uri: `http://localhost:8080/api/${endpoint}`,
+        uri: `${location.protocol}//${location.hostname}/api/${endpoint}`,
         method
     };
     if (typeof qs !== 'undefined') {
