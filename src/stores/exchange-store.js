@@ -70,6 +70,12 @@ class ExchangeStore extends Store {
         return clone(asks.slice(0, count));
     }
 
+    getRegisteredStudentsCount() {
+        return Array.from(students.values()).filter(student => {
+            return student.confirmedStudentEmail && student.confirmedBackupEmail;
+        }).length;
+    }
+
 }
 
 const store = new ExchangeStore();
