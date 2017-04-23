@@ -34,6 +34,9 @@ store.registerHandler('UPDATE_TICKETS_EXCHANGED', data => {
 
 store.registerHandler('UPDATE_LAST_PRICE', data => {
     lastPrice = data.lastPrice;
+    if (lastPrice === null) {
+        lastPrice = undefined;
+    }
     store.emitChange();
 });
 
