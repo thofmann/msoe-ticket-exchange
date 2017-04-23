@@ -17,4 +17,10 @@ export default function() {
         });
     });
 
+    socket.on('update last price', lastPrice => {
+        Dispatcher.handleAction('UPDATE_LAST_PRICE', {
+            lastPrice
+        });
+    });
+
 }

@@ -80,6 +80,10 @@ class ExchangeStore extends Store {
         return 0; // TODO
     }
 
+    getLastPrice() {
+        return undefined; // TODO
+    }
+
 }
 
 const store = new ExchangeStore();
