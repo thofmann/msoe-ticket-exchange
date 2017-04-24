@@ -32,9 +32,9 @@ export default class BuySell extends React.Component {
                     <form>
                         Quantity (tickets):
                         <input type='number' />
-                        Price (mBTC):
+                        Price each (mBTC):
                         <input type='number' />
-                        <input type='submit' />
+                        <input type='submit' value='Place order' />
                     </form>
                 </div>
             </div>
