@@ -9,6 +9,7 @@ import {
     validateToken,
     validateAccept
 } from '../lib/validate';
+import { authenticateStudent } from '../lib/authenticate';
 import { sendConfirmationToken, sendAuthenticationToken } from '../lib/mail';
 
 let app = express();
@@ -128,26 +129,10 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/verify-credentials', (req, res) => {
-    let studentEmail = req.body.studentEmail;
-    let authTokenA = req.body.authTokenA;
-    let authTokenB = req.body.authTokenB;
     try {
-        validateStudentEmail(studentEmail);
-        validateToken(authTokenA);
-        validateToken(authTokenB);
+        authenticateStudent(req.body.studentEmail, req.body.authTokenA, req.body.authTokenB);
     } catch(e) {
         res.failureJson(e.message);
-        return;
-    }
-    let hashedAuthTokenA = hash(authTokenA);
-    let hashedAuthTokenB = hash(authTokenB);
-    let student = ExchangeStore.getStudent(studentEmail);
-    if (student === undefined) {
-        res.failureJson('A student could not be found with this email address.');
-        return;
-    }
-    if (student.hashedAuthTokens.findIndex(h => h.a === hashedAuthTokenA && h.b === hashedAuthTokenB) === -1) {
-        res.failureJson('Authentication tokens are invalid or expired.');
         return;
     }
     res.successJson();
