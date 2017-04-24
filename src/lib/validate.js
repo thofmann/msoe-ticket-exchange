@@ -71,3 +71,42 @@ export function validateAccept(accept) {
         throw new Error('The accept parameter must be a boolean.');
     }
 }
+
+export function validateQuantity(quantity) {
+    if (quantity === undefined) {
+        throw new Error('A quantity must be defined.');
+    }
+    if (!Number.isInteger(quantity)) {
+        throw new Error('A quantity must be a number.');
+    }
+    if (quantity % 1 !== 0) {
+        throw new Error('A quantity must be an integer.');
+    }
+    if (quantity < 1) {
+        throw new Error('A quantity must be positive.');
+    }
+    if (quantity > 1000 * 1000) {
+        throw new Error('A quantity cannot be greater than 1,000,000.');
+    }
+}
+
+export function validatePrice(price) {
+    if (price === undefined) {
+        throw new Error('A price must be defined.');
+    }
+    if (typeof price !== 'number') {
+        throw new Error('A price must be a number.');
+    }
+    if (!Number.isInteger(price)) {
+        throw new Error('A price must be an integer.');
+    }
+    if (price < 1) {
+        throw new Error('A price must be positive.');
+    }
+    if (price > 1000 * 1000 * 1000) {
+        throw new Error('A price cannot be greater than 1,000,000,000.');
+    }
+    if (price % 1000 !== 0) {
+        throw new Error('A price must be a multiple of 10,000.');
+    }
+}
