@@ -7,6 +7,7 @@ import Header from '../components/header.jsx';
 import OrderBook from '../components/order-book.jsx';
 import Footer from '../components/footer.jsx';
 import Notice from '../components/notice.jsx';
+import Overview from '../components/overview.jsx';
 
 export default class Dashboard extends ListenerComponent {
 
@@ -18,12 +19,15 @@ export default class Dashboard extends ListenerComponent {
 
     getStores() {
         return [
-            OrderBookStore
+            OrderBookStore,
+            CredentialsStore
         ];
     }
 
     getState() {
         return {
+            studentEmail: CredentialsStore.getStudentEmail(),
+            backupEmail: CredentialsStore.getBackupEmail(),
             bids: OrderBookStore.getBids(),
             asks: OrderBookStore.getAsks()
         };
@@ -34,6 +38,7 @@ export default class Dashboard extends ListenerComponent {
             <div id='dashboard'>
                 <Notice />
                 <Header title='Dashboard' authenticated={true} />
+                <Overview studentEmail={this.state.studentEmail} backupEmail={this.state.backupEmail} />
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Footer />
             </div>

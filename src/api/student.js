@@ -129,13 +129,16 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/verify-credentials', (req, res) => {
+    let student;
     try {
-        authenticateStudent(req.body.studentEmail, req.body.authTokenA, req.body.authTokenB);
+        student = authenticateStudent(req.body.studentEmail, req.body.authTokenA, req.body.authTokenB);
     } catch(e) {
         res.failureJson(e.message);
         return;
     }
-    res.successJson();
+    res.successJson({
+        backupEmail: student.backupEmail
+    });
 });
 
 export default app;

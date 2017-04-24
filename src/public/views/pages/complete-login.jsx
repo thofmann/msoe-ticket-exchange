@@ -31,8 +31,12 @@ export default class CompleteLogin extends ListenerComponent {
             studentEmail,
             authTokenA,
             authTokenB
-        }).then(() => {
+        }).then(data => {
             Cookies.set('authTokenB', authTokenB, {
+                expires: 7 // expires in 7 days
+                // TODO: use 'secure' flag
+            });
+            Cookies.set('backupEmail', data.backupEmail, {
                 expires: 7 // expires in 7 days
                 // TODO: use 'secure' flag
             });
@@ -41,6 +45,9 @@ export default class CompleteLogin extends ListenerComponent {
             });
             Dispatcher.handleAction('UPDATE_AUTH_TOKEN_B', {
                 authTokenB
+            });
+            Dispatcher.handleAction('UPDATE_BACKUP_EMAIL', {
+                backupEmail: data.backupEmail
             });
             history.push('/dashboard');
         }).catch(() => {

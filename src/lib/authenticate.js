@@ -18,4 +18,5 @@ export function authenticateStudent(studentEmail, authTokenA, authTokenB) {
     if (student.hashedAuthTokens.findIndex(h => h.a === hashedAuthTokenA && h.b === hashedAuthTokenB) === -1) {
         throw new Error('Authentication tokens are invalid or expired.');
     }
+    return student;
 }

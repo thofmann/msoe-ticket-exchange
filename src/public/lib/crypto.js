@@ -12,3 +12,7 @@ export function saltAndHash(password, studentEmail) {
         });
     });
 }
+
+export function md5(message) {
+    return crypto.createHash('md5').update(message).digest('hex');
+}
