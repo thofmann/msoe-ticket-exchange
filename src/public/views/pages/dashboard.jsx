@@ -8,6 +8,7 @@ import OrderBook from '../components/order-book.jsx';
 import Footer from '../components/footer.jsx';
 import Notice from '../components/notice.jsx';
 import Overview from '../components/overview.jsx';
+import BuySell from '../components/buy-sell.jsx';
 
 export default class Dashboard extends ListenerComponent {
 
@@ -38,7 +39,10 @@ export default class Dashboard extends ListenerComponent {
             <div id='dashboard'>
                 <Notice />
                 <Header title='Dashboard' authenticated={true} />
-                <Overview studentEmail={this.state.studentEmail} backupEmail={this.state.backupEmail} />
+                <div className='pure-g'>
+                    <Overview studentEmail={this.state.studentEmail} backupEmail={this.state.backupEmail} />
+                    <BuySell />
+                </div>
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Footer />
             </div>

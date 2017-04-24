@@ -1,21 +1,76 @@
 #dashboard
-    .overview
-        background-color: #f2f2f2
-        text-align: center
-        padding: 18px
+    .overview-container
+        padding: 42px
         box-sizing: border-box
 
-        img
-            display: block
-            margin: 0 auto 8px auto
+        .overview
+            background-color: #f2f2f2
+            text-align: center
+            padding: 18px
+            box-sizing: border-box
 
-        .details
-            display: inline-block
-            text-align: left
-
-            span
+            img
                 display: block
+                margin: 0 auto 8px auto
+
+            .details
+                display: inline-block
+                text-align: left
+
+                span
+                    display: block
+                    padding: 4px 0
+
+    .buy-sell-container
+        padding: 42px
+        box-sizing: border-box
+
+        .buy-sell
+            background-color: #f2f2f2
+            padding: 18px
+            box-sizing: border-box
+
+            .buy, .sell
+                width: 50%
                 padding: 4px 0
+                text-align: center
+                display: inline-block
+                font-size: 24px
+                border: 1px solid #646464
+                box-sizing: border-box
+
+                &.active
+                    background-color: #cadae8
+                    border-bottom-color: #cadae8
+
+            .buy
+                border-right: none
+
+            form
+                padding: 8px 24px
+                margin: 0
+                background-color: #cadae8
+                border: 1px solid #646464
+                border-top: none
+
+                input
+                    width: 100%
+                    padding: 4px 12px
+
+                    &[type='number']
+                        margin: 4px 0 8px 0
+                        font-weight: normal
+                        border: 1px solid #0b1e2e
+
+                    &[type='submit']
+                        padding: 6px 0
+                        border: 1px solid #0b1e2e
+                        background-color: #163249
+                        color: #ffffff
+
+                        &:hover
+                            background-color: #0b1e2e
+                            color: #ffffff
 
     .orderbook
         text-align:center
