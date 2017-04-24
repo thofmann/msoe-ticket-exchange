@@ -33,7 +33,7 @@ export default class CompleteLogin extends ListenerComponent {
             authTokenB
         }).then(() => {
             Cookies.set('authTokenB', authTokenB, {
-                expires: 7 // expires in 7 days; TODO: allow user to choose how long the tokens are valid
+                expires: 7 // expires in 7 days
                 // TODO: use 'secure' flag
             });
             this.setState({
