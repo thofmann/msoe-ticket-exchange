@@ -6,6 +6,7 @@ const FEE = 0.05;
 let students = new Map();
 let bids = []; // descending bid price
 let asks = []; // ascending ask price
+let totalTicketsExchanged = 0;
 
 function getStudentByBackupEmail(email) {
     for (let student of students.values()) {
@@ -77,7 +78,7 @@ class ExchangeStore extends Store {
     }
 
     getTicketsExchangedCount() {
-        return 0; // TODO
+        return totalTicketsExchanged;
     }
 
     getLastPrice() {
@@ -238,6 +239,7 @@ store.registerHandler('NEW_BID', data => {
         let description = ticketsBought === quantity ? 'Bid filled' : 'Bid partially filled';
         createTransaction(studentEmail, 'tickets', ticketsBought, description, timestamp);
     }
+    totalTicketsExchanged += ticketsBought;
     store.emitChange();
 });
 
@@ -265,6 +267,7 @@ store.registerHandler('NEW_ASK', data => {
                 ticketsRemaining -= ticketsExchanged;
                 createTransaction(bids[0].studentEmail, 'tickets', ticketsExchanged, 'Bid filled', timestamp);
                 bids.shift();
+                totalTicketsExchanged += ticketsExchanged;
             } else {
                 let ticketsExchanged = ticketsRemaining;
                 let satoshisPaid = ticketsExchanged * bids[0].price;
@@ -273,6 +276,7 @@ store.registerHandler('NEW_ASK', data => {
                 ticketsRemaining -= ticketsExchanged;
                 createTransaction(bids[0].studentEmail, 'tickets', ticketsExchanged, 'Bid partially filled', timestamp);
                 bids[0].quantity -= ticketsExchanged;
+                totalTicketsExchanged += ticketsExchanged;
             }
         } else {
             insertAsk(ticketsRemaining, price, studentEmail);
