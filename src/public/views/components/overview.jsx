@@ -13,6 +13,10 @@ export default class Overview extends React.Component {
                     <div className='details'>
                         <span>Student email address: {this.props.studentEmail}</span>
                         <span>Backup email address: {this.props.backupEmail}</span>
+                        <span>Total tickets: {this.props.tickets}</span>
+                        <span>Total mBTC: {this.props.satoshis / 100000}</span>
+                        <span>Available tickets: {this.props.availableTickets}</span>
+                        <span>Available mBTC: {this.props.availableSatoshis / 100000}</span>
                     </div>
                 </div>
             </div>
