@@ -7,6 +7,7 @@ let students = new Map();
 let bids = []; // descending bid price
 let asks = []; // ascending ask price
 let totalTicketsExchanged = 0;
+let lastPrice;
 
 function getStudentByBackupEmail(email) {
     for (let student of students.values()) {
@@ -82,7 +83,7 @@ class ExchangeStore extends Store {
     }
 
     getLastPrice() {
-        return undefined; // TODO
+        return lastPrice;
     }
 
 }
@@ -211,6 +212,7 @@ store.registerHandler('NEW_BID', data => {
     let ticketsRemaining = quantity;
     while (ticketsRemaining > 0) {
         if (asks[0].price <= price) {
+            lastPrice = asks[0].price;
             if (asks[0].quantity <= ticketsRemaining) {
                 let ticketsExchanged = asks[0].quantity;
                 let satoshisPaid = ticketsExchanged * asks[0].price;
@@ -259,6 +261,7 @@ store.registerHandler('NEW_ASK', data => {
     let ticketsRemaining = quantity;
     while (ticketsRemaining > 0) {
         if (bids[0].price >= price) {
+            lastPrice = bids[0].price;
             if (bids[0].quantity <= ticketsRemaining) {
                 let ticketsExchanged = bids[0].quantity;
                 let satoshisPaid = ticketsExchanged * bids[0].price;
