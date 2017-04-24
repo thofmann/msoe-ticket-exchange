@@ -1,6 +1,6 @@
 #dashboard
     .overview-container
-        padding: 42px
+        padding: 34px
         box-sizing: border-box
 
         .overview
@@ -22,7 +22,7 @@
                     padding: 4px 0
 
     .buy-sell-container
-        padding: 42px
+        padding: 34px
         box-sizing: border-box
 
         .buy-sell
@@ -38,10 +38,15 @@
                 font-size: 24px
                 border: 1px solid #646464
                 box-sizing: border-box
+                cursor: pointer
+
+                &:hover
+                    background-color: darken(#f2f2f2, 20%)
 
                 &.active
                     background-color: #cadae8
                     border-bottom-color: #cadae8
+                    cursor: default
 
             .buy
                 border-right: none
