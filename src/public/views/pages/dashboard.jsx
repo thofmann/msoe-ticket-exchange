@@ -28,6 +28,8 @@ export default class Dashboard extends ListenerComponent {
     getState() {
         return {
             studentEmail: CredentialsStore.getStudentEmail(),
+            authTokenA: CredentialsStore.getAuthTokenA(),
+            authTokenB: CredentialsStore.getAuthTokenB(),
             backupEmail: CredentialsStore.getBackupEmail(),
             bids: OrderBookStore.getBids(),
             asks: OrderBookStore.getAsks()
@@ -41,7 +43,7 @@ export default class Dashboard extends ListenerComponent {
                 <Header title='Dashboard' authenticated={true} />
                 <div className='pure-g'>
                     <Overview studentEmail={this.state.studentEmail} backupEmail={this.state.backupEmail} />
-                    <BuySell />
+                    <BuySell studentEmail={this.state.studentEmail} authTokenA={this.state.authTokenA} authTokenB={this.state.authTokenB} />
                 </div>
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Footer />

@@ -206,7 +206,7 @@ store.registerHandler('NEW_BID', data => {
         throw new Error('This student email address is not in use.');
     }
     if (student.balance.satoshis < quantity * price) {
-        throw new Error('You do not have enough satoshis to place this bid.');
+        throw new Error('You do not have enough bitcoins to place this bid.');
     }
     let totalSatoshisPaid = 0;
     let ticketsRemaining = quantity;
