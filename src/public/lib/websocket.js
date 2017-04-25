@@ -58,4 +58,16 @@ export default function() {
         });
     });
 
+    socket.on('update my bids', myBids => {
+        Dispatcher.handleAction('UPDATE_MY_BIDS', {
+            myBids
+        });
+    });
+
+    socket.on('update my asks', myAsks => {
+        Dispatcher.handleAction('UPDATE_MY_ASKS', {
+            myAsks
+        });
+    });
+
 }

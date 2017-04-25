@@ -110,3 +110,21 @@ export function validatePrice(price) {
         throw new Error('A price must be a multiple of 10,000.');
     }
 }
+
+export function validateId(id) {
+    if (id === undefined) {
+        throw new Error('An id must be defined.');
+    }
+    if (!Number.isInteger(id)) {
+        throw new Error('An id must be a number.');
+    }
+    if (id % 1 !== 0) {
+        throw new Error('An id must be an integer.');
+    }
+    if (id < 0) {
+        throw new Error('An id cannot be negative.');
+    }
+    if (id > Number.MAX_SAFE_INTEGER) {
+        throw new Error(`An id cannot be greater than ${Number.MAX_SAFE_INTEGER}.`);
+    }
+}

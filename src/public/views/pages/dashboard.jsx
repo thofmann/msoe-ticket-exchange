@@ -5,6 +5,7 @@ import OrderBookStore from '../../stores/order-book-store';
 import { history } from '../app.jsx';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
+import MyOrders from '../components/my-orders.jsx';
 import OrderBook from '../components/order-book.jsx';
 import Footer from '../components/footer.jsx';
 import Notice from '../components/notice.jsx';
@@ -37,7 +38,9 @@ export default class Dashboard extends ListenerComponent {
             tickets: WalletStore.getTickets(),
             satoshis: WalletStore.getSatoshis(),
             bids: OrderBookStore.getBids(),
-            asks: OrderBookStore.getAsks()
+            asks: OrderBookStore.getAsks(),
+            myBids: OrderBookStore.getMyBids(),
+            myAsks: OrderBookStore.getMyAsks()
         };
     }
 
@@ -55,6 +58,13 @@ export default class Dashboard extends ListenerComponent {
                     />
                     <BuySell studentEmail={this.state.studentEmail} authTokenA={this.state.authTokenA} authTokenB={this.state.authTokenB} />
                 </div>
+                <MyOrders
+                    studentEmail={this.state.studentEmail}
+                    authTokenA={this.state.authTokenA}
+                    authTokenB={this.state.authTokenB}
+                    bids={this.state.myBids}
+                    asks={this.state.myAsks}
+                />
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Footer />
             </div>

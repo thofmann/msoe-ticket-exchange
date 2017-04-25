@@ -11,9 +11,9 @@ let lastPrice;
 let nextBidId = 0;
 let nextAskId = 0;
 
-function getStudentByBackupEmail(email) {
+function getStudentByBackupEmail(backupEmail) {
     for (let student of students.values()) {
-        if (student.backupEmail === email) {
+        if (student.backupEmail === backupEmail) {
             return clone(student);
         }
     }
@@ -68,16 +68,40 @@ function insertAsk(quantity, price, studentEmail) {
 
 class ExchangeStore extends Store {
 
-    getStudent(email) {
-        return clone(students.get(email));
+    getStudent(studentEmail) {
+        return clone(students.get(studentEmail));
     }
 
-    getStudentByBackupEmail(email) {
-        return clone(getStudentByBackupEmail(email));
+    getStudentByBackupEmail(backupEmail) {
+        return clone(getStudentByBackupEmail(backupEmail));
     }
 
     getBids(count = Infinity) {
         return clone(bids.slice(0, count));
+    }
+
+    getAsks(count = Infinity) {
+        return clone(asks.slice(0, count));
+    }
+
+    getStudentsBids(studentEmail) {
+        return bids.filter(bid => bid.studentEmail === studentEmail).map(bid => {
+            return {
+                id: bid.id,
+                quantity: bid.quantity,
+                price: bid.price
+            };
+        });
+    }
+
+    getStudentsAsks(studentEmail) {
+        return asks.filter(ask => ask.studentEmail === studentEmail).map(ask => {
+            return {
+                id: ask.id,
+                quantity: ask.quantity,
+                price: ask.price
+            };
+        });
     }
 
     getAnonymizedBids(count = Infinity) {
@@ -118,10 +142,6 @@ class ExchangeStore extends Store {
             }
         }
         return r;
-    }
-
-    getAsks(count = Infinity) {
-        return clone(asks.slice(0, count));
     }
 
     getRegisteredStudentsCount() {
@@ -344,6 +364,40 @@ store.registerHandler('NEW_ASK', data => {
         let description = ticketsRemaining === 0 ? 'Ask filled' : 'Ask partially filled';
         createTransaction(studentEmail, 'satoshis', totalSatoshisReceived, description, timestamp);
     }
+    store.emitChange();
+});
+
+store.registerHandler('CANCEL_BID', data => {
+    let studentEmail = data.studentEmail;
+    let id = data.id;
+    let timestamp = data.timestamp;
+    let index = bids.findIndex(bid => bid.id === id);
+    if (index === -1) {
+        throw new Error('This bid could not be found.');
+    }
+    let bid = bids[index];
+    if (bid.studentEmail !== studentEmail) {
+        throw new Error('This is not your bid.');
+    }
+    createTransaction(studentEmail, 'satoshis', bid.quantity * bid.price, 'Bid cancelled.', timestamp);
+    bids.splice(index, 1);
+    store.emitChange();
+});
+
+store.registerHandler('CANCEL_ASK', data => {
+    let studentEmail = data.studentEmail;
+    let id = data.id;
+    let timestamp = data.timestamp;
+    let index = asks.findIndex(ask => ask.id === id);
+    if (index === -1) {
+        throw new Error('This ask could not be found.');
+    }
+    let ask = asks[index];
+    if (ask.studentEmail !== studentEmail) {
+        throw new Error('This is not your ask.');
+    }
+    createTransaction(studentEmail, 'tickets', ask.quantity, 'Ask cancelled.', timestamp);
+    asks.splice(index, 1);
     store.emitChange();
 });
 

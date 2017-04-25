@@ -23,6 +23,8 @@ export default function(server) {
         let studentEmail;
         let tickets;
         let satoshis;
+        let myBids = [];
+        let myAsks = [];
         socket.on('authenticate', credentials => {
             if (onChange !== undefined) {
                 return;
@@ -37,6 +39,12 @@ export default function(server) {
                     }
                     if (satoshis !== (satoshis = student.balance.satoshis)) {
                         socket.emit('update satoshis', satoshis);
+                    }
+                    if (JSON.stringify(myBids) !== JSON.stringify(myBids = ExchangeStore.getStudentsBids(studentEmail))) {
+                        socket.emit('update my bids', myBids);
+                    }
+                    if (JSON.stringify(myAsks) !== JSON.stringify(myAsks = ExchangeStore.getStudentsAsks(studentEmail))) {
+                        socket.emit('update my asks', myAsks);
                     }
                 };
                 onChange();

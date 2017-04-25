@@ -2,7 +2,7 @@ import express from 'express';
 import ExchangeStore from '../stores/exchange-store';
 import { publish } from '../lib/database';
 import { authenticateStudent } from '../lib/authenticate';
-import { validateQuantity, validatePrice } from '../lib/validate';
+import { validateQuantity, validatePrice, validateId } from '../lib/validate';
 
 let app = express();
 
@@ -28,6 +28,26 @@ app.post('/', (req, res) => {
         studentEmail,
         quantity,
         price
+    }).then(() => {
+        res.successJson();
+    }).catch(e => {
+        res.failureJson(e.message);
+    });
+});
+
+app.post('/cancel', (req, res) => {
+    let studentEmail = req.body.studentEmail;
+    let id = req.body.id;
+    try {
+        authenticateStudent(studentEmail, req.body.authTokenA, req.body.authTokenB);
+        validateId(id);
+    } catch (e) {
+        res.failureJson(e.message);
+        return;
+    }
+    return publish('CANCEL_ASK', {
+        studentEmail,
+        id
     }).then(() => {
         res.successJson();
     }).catch(e => {

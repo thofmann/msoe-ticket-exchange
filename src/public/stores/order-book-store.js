@@ -3,6 +3,8 @@ import clone from 'consus-core/clone';
 
 let bids = [];
 let asks = [];
+let myBids = [];
+let myAsks = [];
 
 class OrderBookStore extends Store {
 
@@ -12,6 +14,14 @@ class OrderBookStore extends Store {
 
     getAsks() {
         return clone(asks);
+    }
+
+    getMyBids() {
+        return clone(myBids);
+    }
+
+    getMyAsks() {
+        return clone(myAsks);
     }
 
 }
@@ -25,6 +35,16 @@ store.registerHandler('UPDATE_BIDS', data => {
 
 store.registerHandler('UPDATE_ASKS', data => {
     asks = data.asks;
+    store.emitChange();
+});
+
+store.registerHandler('UPDATE_MY_BIDS', data => {
+    myBids = data.myBids;
+    store.emitChange();
+});
+
+store.registerHandler('UPDATE_MY_ASKS', data => {
+    myAsks = data.myAsks;
     store.emitChange();
 });
 
