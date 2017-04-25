@@ -8,6 +8,8 @@ let bids = []; // descending bid price
 let asks = []; // ascending ask price
 let totalTicketsExchanged = 0;
 let lastPrice;
+let nextBidId = 0;
+let nextAskId = 0;
 
 function getStudentByBackupEmail(email) {
     for (let student of students.values()) {
@@ -29,9 +31,12 @@ function createTransaction(studentEmail, currency, amount, description, timestam
 }
 
 function insertBid(quantity, price, studentEmail) {
+    let id = nextBidId;
+    nextBidId++;
     for (let i = 0; i <= bids.length; i++) {
         if (bids[i].price < price) {
             bids.splice(i, 0, {
+                id,
                 quantity,
                 price,
                 studentEmail
@@ -42,9 +47,12 @@ function insertBid(quantity, price, studentEmail) {
 }
 
 function insertAsk(quantity, price, studentEmail) {
+    let id = nextAskId;
+    nextAskId++;
     for (let i = 0; i <= asks.length; i++) {
         if (asks[i].price > price) {
             asks.splice(i, 0, {
+                id,
                 quantity,
                 price,
                 studentEmail
