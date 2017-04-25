@@ -26,6 +26,7 @@ export default class Register extends ListenerComponent {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         if (CredentialsStore.isAuthenticated()) {
             history.push('/dashboard');
         }

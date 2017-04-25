@@ -23,6 +23,7 @@ export default class Login extends ListenerComponent {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         if (CredentialsStore.isAuthenticated()) {
             history.push('/dashboard');
         }

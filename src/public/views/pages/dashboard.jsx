@@ -1,5 +1,6 @@
 import React from 'react';
 import CredentialsStore from '../../stores/credentials-store';
+import WalletStore from '../../stores/wallet-store';
 import OrderBookStore from '../../stores/order-book-store';
 import { history } from '../app.jsx';
 import ListenerComponent from '../../lib/listener-component.jsx';
@@ -13,6 +14,7 @@ import BuySell from '../components/buy-sell.jsx';
 export default class Dashboard extends ListenerComponent {
 
     componentDidMount() {
+        super.componentDidMount();
         if (!CredentialsStore.isAuthenticated()) {
             history.push('/login');
         }
@@ -21,6 +23,7 @@ export default class Dashboard extends ListenerComponent {
     getStores() {
         return [
             OrderBookStore,
+            WalletStore,
             CredentialsStore
         ];
     }
@@ -28,9 +31,11 @@ export default class Dashboard extends ListenerComponent {
     getState() {
         return {
             studentEmail: CredentialsStore.getStudentEmail(),
+            backupEmail: CredentialsStore.getBackupEmail(),
             authTokenA: CredentialsStore.getAuthTokenA(),
             authTokenB: CredentialsStore.getAuthTokenB(),
-            backupEmail: CredentialsStore.getBackupEmail(),
+            tickets: WalletStore.getTickets(),
+            satoshis: WalletStore.getSatoshis(),
             bids: OrderBookStore.getBids(),
             asks: OrderBookStore.getAsks()
         };
@@ -42,7 +47,12 @@ export default class Dashboard extends ListenerComponent {
                 <Notice />
                 <Header title='Dashboard' authenticated={true} />
                 <div className='pure-g'>
-                    <Overview studentEmail={this.state.studentEmail} backupEmail={this.state.backupEmail} />
+                    <Overview
+                        studentEmail={this.state.studentEmail}
+                        backupEmail={this.state.backupEmail}
+                        tickets={this.state.tickets}
+                        satoshis={this.state.satoshis}
+                    />
                     <BuySell studentEmail={this.state.studentEmail} authTokenA={this.state.authTokenA} authTokenB={this.state.authTokenB} />
                 </div>
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />

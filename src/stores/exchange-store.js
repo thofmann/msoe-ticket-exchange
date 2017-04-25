@@ -27,39 +27,43 @@ function createTransaction(studentEmail, currency, amount, description, timestam
         description,
         timestamp
     });
-    student.balance[currency] -= amount;
+    student.balance[currency] += amount;
 }
 
 function insertBid(quantity, price, studentEmail) {
     let id = nextBidId;
     nextBidId++;
-    for (let i = 0; i <= bids.length; i++) {
+    let bid = {
+        id,
+        quantity,
+        price,
+        studentEmail
+    };
+    for (let i = 0; i < bids.length; i++) {
         if (bids[i].price < price) {
-            bids.splice(i, 0, {
-                id,
-                quantity,
-                price,
-                studentEmail
-            });
+            bids.splice(i, 0, bid);
             return;
         }
     }
+    bids.push(bid);
 }
 
 function insertAsk(quantity, price, studentEmail) {
     let id = nextAskId;
     nextAskId++;
-    for (let i = 0; i <= asks.length; i++) {
+    let ask = {
+        id,
+        quantity,
+        price,
+        studentEmail
+    };
+    for (let i = 0; i < asks.length; i++) {
         if (asks[i].price > price) {
-            asks.splice(i, 0, {
-                id,
-                quantity,
-                price,
-                studentEmail
-            });
+            asks.splice(i, 0, ask);
             return;
         }
     }
+    asks.push(ask);
 }
 
 class ExchangeStore extends Store {
@@ -122,8 +126,8 @@ store.registerHandler('NEW_STUDENT', data => {
         salt,
         hashedAuthTokens: [],
         balance: {
-            tickets: 0,
-            satoshis: 0
+            tickets: 100, // TODO: 0
+            satoshis: 100000000 // TODO: 0
         },
         transactions: [] // descending by timestamp
     });
@@ -219,7 +223,7 @@ store.registerHandler('NEW_BID', data => {
     let totalSatoshisPaid = 0;
     let ticketsRemaining = quantity;
     while (ticketsRemaining > 0) {
-        if (asks[0].price <= price) {
+        if (asks.length > 0 && asks[0].price <= price) {
             lastPrice = asks[0].price;
             if (asks[0].quantity <= ticketsRemaining) {
                 let ticketsExchanged = asks[0].quantity;
@@ -241,6 +245,7 @@ store.registerHandler('NEW_BID', data => {
         } else {
             totalSatoshisPaid += ticketsRemaining * price;
             insertBid(ticketsRemaining, price, studentEmail);
+            break;
         }
     }
     createTransaction(studentEmail, 'satoshis', -1 * totalSatoshisPaid, 'Bid placed', timestamp);
@@ -268,7 +273,7 @@ store.registerHandler('NEW_ASK', data => {
     let totalSatoshisReceived = 0;
     let ticketsRemaining = quantity;
     while (ticketsRemaining > 0) {
-        if (bids[0].price >= price) {
+        if (bids.length > 0 && bids[0].price >= price) {
             lastPrice = bids[0].price;
             if (bids[0].quantity <= ticketsRemaining) {
                 let ticketsExchanged = bids[0].quantity;
@@ -291,6 +296,7 @@ store.registerHandler('NEW_ASK', data => {
             }
         } else {
             insertAsk(ticketsRemaining, price, studentEmail);
+            break;
         }
     }
     createTransaction(studentEmail, 'tickets', -1 * quantity, 'Ask placed', timestamp);
