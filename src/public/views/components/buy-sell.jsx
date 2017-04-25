@@ -9,7 +9,8 @@ export default class BuySell extends React.Component {
             side: 'bid',
             quantity: '',
             price: '',
-            error: undefined
+            error: undefined,
+            status: 'editing'
         };
     }
 
@@ -75,24 +76,80 @@ export default class BuySell extends React.Component {
                 error: 'Please enter a price of at least 0.1.'
             });
         }
-        if (price < 0.1) {
+        if (price > 10000) {
             return this.setState({
                 error: 'Please enter a price no greater than 10,000.'
             });
         }
+        this.setState({
+            status: 'confirming',
+            quantity: quantity.toString(),
+            price: price.toString()
+        });
+    }
+
+    confirmOrder() {
+        this.setState({
+            status: 'submitting'
+        });
+        let quantity = this.state.quantity;
+        let price = this.state.price;
+        quantity = parseInt(quantity);
+        price = parseFloat(price) * 100 * 1000;
         post(this.state.side, {
             studentEmail: this.props.studentEmail,
             authTokenA: this.props.authTokenA,
             authTokenB: this.props.authTokenB,
-            quantity: quantity,
-            price: price * 100 * 1000
+            quantity,
+            price
         }).then(() => {
-
+            this.setState({
+                status: 'editing'
+            });
         }).catch(e => {
             this.setState({
+                status: 'editing',
                 error: e.message
             });
         });
+    }
+
+    cancelOrder() {
+        this.setState({
+            status: 'editing'
+        });
+    }
+
+    renderConfirmation() {
+        if (this.state.status === 'editing') {
+            return false;
+        }
+        let action = this.state.side === 'bid' ? 'buy' : 'sell';
+        if (this.state.status === 'confirming') {
+            return (
+                <div className='overlay'>
+                    <div className='modal-container'>
+                        <div className='modal'>
+                            <p>Are you sure that you would like to <b>{action} {this.state.quantity} tickets</b> for a price of <b>{this.state.price} mBTC each</b>?</p>
+                            <input type='button' value='Place Order' onClick={() => this.confirmOrder()} />
+                            <input type='button' className='cancel' value='Cancel' onClick={() => this.cancelOrder()} />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        if (this.state.status === 'submitting') {
+            let action = this.state.side === 'bid' ? 'buy' : 'sell';
+            return (
+                <div className='overlay'>
+                    <div className='modal-container'>
+                        <div className='modal'>
+                            <p>Attempting to <b>{action} {this.state.quantity} tickets</b> for a price of <b>{this.state.price} mBTC each</b>...</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     }
 
     render() {
@@ -100,6 +157,7 @@ export default class BuySell extends React.Component {
         let sellClass = this.state.side === 'ask' ? 'sell active' : 'sell';
         return (
             <div className='buy-sell-container pure-u-1-1 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4'>
+                {this.renderConfirmation()}
                 <div className='buy-sell'>
                     <span className={buyClass} onClick={() => this.buySide()}>Buy</span>
                     <span className={sellClass} onClick={() => this.sellSide()}>Sell</span>

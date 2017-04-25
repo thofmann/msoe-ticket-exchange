@@ -26,10 +26,17 @@
 
             input
                 padding: 6px 32px
-                border: 1px solid #0b1e2e
+                border: 1px solid darken(#163249, 20%)
                 background-color: #163249
                 color: #ffffff
+                margin: 0 10px
 
                 &:hover
-                    background-color: #0b1e2e
-                    color: #ffffff
+                    background-color: darken(#163249, 20%)
+
+                &.cancel
+                    border-color: darken(#661a1a, 20%)
+                    background-color: #661a1a
+
+                    &:hover
+                        background-color: darken(#661a1a, 20%)
