@@ -18,14 +18,6 @@ export default class Footer extends React.Component {
                     Fees
                 </Link>
                 •
-                <Link to='/security'>
-                    Security
-                </Link>
-                •
-                <Link to='/privacy'>
-                    Privacy
-                </Link>
-                •
                 <a href='https://github.com/thofmann/msoe-ticket-exchange'>
                     View Source
                 </a>
