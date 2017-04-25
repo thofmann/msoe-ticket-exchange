@@ -19,7 +19,6 @@ const store = new WalletStore();
 
 store.registerHandler('UPDATE_TICKETS', data => {
     tickets = data.tickets;
-    console.log('emitting ticket change');
     store.emitChange();
 });
 
