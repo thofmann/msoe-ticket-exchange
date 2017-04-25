@@ -8,6 +8,7 @@ import VerifyEmail from './pages/verify-email.jsx';
 import Login from './pages/login.jsx';
 import CompleteLogin from './pages/complete-login.jsx';
 import Terms from './pages/terms.jsx';
+import Fees from './pages/fees.jsx';
 import Dashboard from './pages/dashboard.jsx';
 import NotFound from './pages/not-found.jsx';
 
@@ -25,6 +26,7 @@ export default class App extends React.Component {
                     <Route path='/login' component={Login} />
                     <Route path='/complete-login' component={CompleteLogin} />
                     <Route path='/terms' component={Terms} />
+                    <Route path='/fees' component={Fees} />
                     <Route path='/dashboard' component={Dashboard} />
                     <Route component={NotFound} />
                 </Switch>
