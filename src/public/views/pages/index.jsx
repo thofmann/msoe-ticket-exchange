@@ -43,7 +43,7 @@ export default class Index extends ListenerComponent {
                 <div className='stats pure-g'>
                     <Stat number={this.state.studentsRegistered} name='Students registered' />
                     <Stat number={this.state.ticketsExchanged} name='Tickets exchanged' />
-                    <Stat number={this.state.lastPrice} name='Latest ticket price' />
+                    <Stat number={`${(this.state.lastPrice / 100000).toFixed(1)} mBTC`} name='Latest ticket price' />
                 </div>
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Announcements announcements={this.state.announcements} />

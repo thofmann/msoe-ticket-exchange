@@ -46,4 +46,16 @@ export default function() {
         });
     });
 
+    socket.on('update bids', bids => {
+        Dispatcher.handleAction('UPDATE_BIDS', {
+            bids
+        });
+    });
+
+    socket.on('update asks', asks => {
+        Dispatcher.handleAction('UPDATE_ASKS', {
+            asks
+        });
+    });
+
 }

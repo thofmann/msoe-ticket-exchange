@@ -80,6 +80,46 @@ class ExchangeStore extends Store {
         return clone(bids.slice(0, count));
     }
 
+    getAnonymizedBids(count = Infinity) {
+        let r = [];
+        for (let i = 0; i < bids.length; i++) {
+            let price = bids[i].price;
+            let quantity = bids[i].quantity;
+            if (r.length === 0 || r[r.length - 1].price !== price) {
+                if (r.length === count) {
+                    break;
+                }
+                r.push({
+                    quantity,
+                    price
+                });
+            } else {
+                r[r.length - 1].quantity += quantity;
+            }
+        }
+        return r;
+    }
+
+    getAnonymizedAsks(count = Infinity) {
+        let r = [];
+        for (let i = 0; i < asks.length; i++) {
+            let price = asks[i].price;
+            let quantity = asks[i].quantity;
+            if (r.length === 0 || r[r.length - 1].price !== price) {
+                if (r.length === count) {
+                    break;
+                }
+                r.push({
+                    quantity,
+                    price
+                });
+            } else {
+                r[r.length - 1].quantity += quantity;
+            }
+        }
+        return r;
+    }
+
     getAsks(count = Infinity) {
         return clone(asks.slice(0, count));
     }

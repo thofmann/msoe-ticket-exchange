@@ -11,18 +11,20 @@ export default class Side extends React.Component {
             );
         }
         return (
-            <div className='list'>
-                <tr>
-                    <th>Quantity</th>
-                    <th>Price (mBTC)</th>
-                </tr>
-                {this.props.orders.slice(0, 10).map(order => (
+            <table className='list'>
+                <tbody>
                     <tr>
-                        <td>{order.quantity}</td>
-                        <td>{order.price}</td>
+                        <th>Quantity</th>
+                        <th>Price each (mBTC)</th>
                     </tr>
-                ))}
-            </div>
+                    {this.props.orders.slice(0, 10).map(order => (
+                        <tr key={`${order.quantity} ${order.price}`}>
+                            <td>{order.quantity}</td>
+                            <td>{(order.price / 100000).toFixed(1)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         );
     }
 

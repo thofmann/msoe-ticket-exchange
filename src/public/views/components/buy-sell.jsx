@@ -84,7 +84,7 @@ export default class BuySell extends React.Component {
         this.setState({
             status: 'confirming',
             quantity: quantity.toString(),
-            price: price.toString()
+            price: price.toFixed(1)
         });
     }
 
