@@ -190,7 +190,7 @@ store.registerHandler('NEW_STUDENT', data => {
         salt,
         hashedAuthTokens: [],
         balance: {
-            tickets: 100, // TODO: 0
+            tickets: 0
             satoshis: 100000000 // TODO: 0
         },
         transactions: [] // descending by timestamp
