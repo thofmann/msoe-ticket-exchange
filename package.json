@@ -63,6 +63,7 @@
     "socket.io-client": "^1.7.3"
   },
   "dependencies": {
+    "bitcore-lib": "^0.14.0",
     "body-parser": "^1.17.1",
     "mailgun.js": "^2.0.1",
     "oak-lite": "^1.0.0",

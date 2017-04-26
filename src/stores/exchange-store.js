@@ -1,9 +1,11 @@
 import { Store } from 'consus-core/flux';
 import clone from 'consus-core/clone';
+import { studentIdToBitcoinAddress } from '../lib/bitcoin';
 
 const FEE = 0.05;
 
 let students = new Map();
+let nextStudentId = 0;
 let bids = []; // descending bid price
 let asks = []; // ascending ask price
 let totalTicketsExchanged = 0;
@@ -12,11 +14,20 @@ let nextBidId = 0;
 let nextAskId = 0;
 let announcements = []; // descending by timestamp
 let nextAnnouncementId = 0;
+let payments = [];
 
 function getStudentByBackupEmail(backupEmail) {
     for (let student of students.values()) {
         if (student.backupEmail === backupEmail) {
-            return clone(student);
+            return student;
+        }
+    }
+}
+
+function getStudentById(studentId) {
+    for (let student of students.values()) {
+        if (student.id === studentId) {
+            return student;
         }
     }
 }
@@ -72,6 +83,10 @@ class ExchangeStore extends Store {
 
     getAnnouncements() {
         return clone(announcements);
+    }
+
+    getPayments() {
+        return clone(payments);
     }
 
     getStudent(studentEmail) {
@@ -186,6 +201,7 @@ store.registerHandler('NEW_STUDENT', data => {
         throw new Error('This backup email address is already in use.');
     }
     students.set(studentEmail, {
+        id: nextStudentId,
         studentEmail,
         backupEmail,
         confirmedStudentEmail: false,
@@ -197,10 +213,12 @@ store.registerHandler('NEW_STUDENT', data => {
         hashedAuthTokens: [],
         balance: {
             tickets: 0,
-            satoshis: 100000000 // TODO: 0
+            satoshis: 0
         },
-        transactions: [] // descending by timestamp
+        transactions: [], // descending by timestamp
+        bitcoinDepositAddress: studentIdToBitcoinAddress(nextStudentId)
     });
+    nextStudentId++;
     store.emitChange();
 });
 
@@ -431,6 +449,18 @@ store.registerHandler('MAKE_ANNOUNCEMENT', data => {
         id: nextAnnouncementId
     });
     nextAnnouncementId++;
+    store.emitChange();
+});
+
+store.registerHandler('UPDATE_PAYMENTS', data => {
+    if (data.payments.length <= payments.length) {
+        return;
+    }
+    let newPayments = data.payments.slice(payments.length);
+    newPayments.forEach(payment => {
+        createTransaction(getStudentById(payment.studentId).studentEmail, 'satoshis', payment.satoshis, 'Bitcoins deposited', data.timestamp);
+    });
+    payments = clone(payments.concat(newPayments));
     store.emitChange();
 });
 

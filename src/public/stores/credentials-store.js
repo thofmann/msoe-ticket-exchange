@@ -5,6 +5,7 @@ let studentEmail = Cookies.get('studentEmail');
 let backupEmail = Cookies.get('backupEmail');
 let authTokenA = Cookies.get('authTokenA');
 let authTokenB = Cookies.get('authTokenB');
+let bitcoinDepositAddress = '';
 
 class CredentialsStore extends Store {
 
@@ -32,6 +33,10 @@ class CredentialsStore extends Store {
         return studentEmail === 'hofmannt@msoe.edu';
     }
 
+    getBitcoinDepositAddress() {
+        return bitcoinDepositAddress;
+    }
+
 }
 
 const store = new CredentialsStore();
@@ -56,11 +61,17 @@ store.registerHandler('UPDATE_AUTH_TOKEN_B', data => {
     store.emitChange();
 });
 
+store.registerHandler('UPDATE_BITCOIN_DEPOSIT_ADDRESS', data => {
+    bitcoinDepositAddress = data.bitcoinDepositAddress;
+    store.emitChange();
+});
+
 store.registerHandler('LOGOUT', () => {
     studentEmail = undefined;
     backupEmail = undefined;
     authTokenA = undefined;
     authTokenB = undefined;
+    bitcoinDepositAddress = '';
     store.emitChange();
 });
 

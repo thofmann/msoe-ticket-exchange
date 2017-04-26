@@ -12,9 +12,6 @@ export default class Register extends ListenerComponent {
 
     constructor() {
         super();
-        if (CredentialsStore.isAuthenticated()) {
-            history.push('/dashboard');
-        }
         Object.assign(this.state, {
             studentEmail: '',
             backupEmail: '',

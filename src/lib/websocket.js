@@ -1,6 +1,6 @@
 import SocketIO from 'socket.io';
-
 import { authenticateStudent } from './authenticate';
+import { studentIdToBitcoinAddress } from './bitcoin';
 import ExchangeStore from '../stores/exchange-store';
 
 let studentsRegistered = ExchangeStore.getRegisteredStudentsCount();
@@ -35,6 +35,7 @@ export default function(server) {
             try {
                 authenticateStudent(credentials.studentEmail, credentials.authTokenA, credentials.authTokenB);
                 studentEmail = credentials.studentEmail;
+                socket.emit('update bitcoin deposit address', studentIdToBitcoinAddress(ExchangeStore.getStudent(studentEmail).id));
                 onChange = () => {
                     let student = ExchangeStore.getStudent(studentEmail);
                     if (tickets !== (tickets = student.balance.tickets)) {

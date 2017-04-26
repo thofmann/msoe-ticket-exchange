@@ -102,4 +102,10 @@ export default function() {
         });
     });
 
+    socket.on('update bitcoin deposit address', bitcoinDepositAddress => {
+        Dispatcher.handleAction('UPDATE_BITCOIN_DEPOSIT_ADDRESS', {
+            bitcoinDepositAddress
+        });
+    });
+
 }
