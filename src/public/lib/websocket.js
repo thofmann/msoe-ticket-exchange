@@ -8,14 +8,24 @@ export default function() {
 
     const socket = SocketIO(`${location.protocol}//${location.hostname}`);
 
-    let authenticated = CredentialsStore.isAuthenticated();
-
-    if (authenticated) {
+    function authenticate() {
         socket.emit('authenticate', {
             studentEmail: CredentialsStore.getStudentEmail(),
             authTokenA: CredentialsStore.getAuthTokenA(),
             authTokenB: CredentialsStore.getAuthTokenB()
         });
+    }
+
+    if (CredentialsStore.isAuthenticated()) {
+        authenticate();
+    } else {
+        let onChange = () => {
+            if (CredentialsStore.isAuthenticated()) {
+                authenticate();
+            }
+            CredentialsStore.removeChangeListener(onChange);
+        };
+        CredentialsStore.addChangeListener(onChange);
     }
 
     socket.on('authentication failed', () => {
