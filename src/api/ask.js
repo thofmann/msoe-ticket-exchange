@@ -1,5 +1,4 @@
 import express from 'express';
-import ExchangeStore from '../stores/exchange-store';
 import { publish } from '../lib/database';
 import { authenticateStudent } from '../lib/authenticate';
 import { validateQuantity, validatePrice, validateId } from '../lib/validate';
