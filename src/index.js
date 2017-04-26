@@ -22,4 +22,4 @@ const server = http.createServer(app);
 
 websocket(server);
 
-server.listen(config.server.port, 'localhost');
+server.listen(config.localServer.port, config.localServer.domain);
