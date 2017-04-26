@@ -25,6 +25,7 @@ export default function(server) {
         let satoshis;
         let myBids = [];
         let myAsks = [];
+        let myTransactions = [];
         socket.on('authenticate', credentials => {
             if (onChange !== undefined) {
                 return;
@@ -45,6 +46,9 @@ export default function(server) {
                     }
                     if (JSON.stringify(myAsks) !== JSON.stringify(myAsks = ExchangeStore.getStudentsAsks(studentEmail))) {
                         socket.emit('update my asks', myAsks);
+                    }
+                    if (JSON.stringify(myTransactions) !== JSON.stringify(myTransactions = ExchangeStore.getStudentsTransactions(studentEmail))) {
+                        socket.emit('update my transactions', myTransactions);
                     }
                 };
                 onChange();

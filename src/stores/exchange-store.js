@@ -104,6 +104,10 @@ class ExchangeStore extends Store {
         });
     }
 
+    getStudentsTransactions(studentEmail) {
+        return clone(students.get(studentEmail).transactions);
+    }
+
     getAnonymizedBids(count = Infinity) {
         let r = [];
         for (let i = 0; i < bids.length; i++) {
@@ -379,7 +383,7 @@ store.registerHandler('CANCEL_BID', data => {
     if (bid.studentEmail !== studentEmail) {
         throw new Error('This is not your bid.');
     }
-    createTransaction(studentEmail, 'satoshis', bid.quantity * bid.price, 'Bid cancelled.', timestamp);
+    createTransaction(studentEmail, 'satoshis', bid.quantity * bid.price, 'Bid cancelled', timestamp);
     bids.splice(index, 1);
     store.emitChange();
 });
@@ -396,7 +400,7 @@ store.registerHandler('CANCEL_ASK', data => {
     if (ask.studentEmail !== studentEmail) {
         throw new Error('This is not your ask.');
     }
-    createTransaction(studentEmail, 'tickets', ask.quantity, 'Ask cancelled.', timestamp);
+    createTransaction(studentEmail, 'tickets', ask.quantity, 'Ask cancelled', timestamp);
     asks.splice(index, 1);
     store.emitChange();
 });

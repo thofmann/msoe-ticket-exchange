@@ -2,6 +2,7 @@ import React from 'react';
 import CredentialsStore from '../../stores/credentials-store';
 import WalletStore from '../../stores/wallet-store';
 import OrderBookStore from '../../stores/order-book-store';
+import TransactionStore from '../../stores/transaction-store';
 import { history } from '../app.jsx';
 import ListenerComponent from '../../lib/listener-component.jsx';
 import Header from '../components/header.jsx';
@@ -11,6 +12,7 @@ import Footer from '../components/footer.jsx';
 import Notice from '../components/notice.jsx';
 import Overview from '../components/overview.jsx';
 import BuySell from '../components/buy-sell.jsx';
+import Transactions from '../components/transactions.jsx';
 
 export default class Dashboard extends ListenerComponent {
 
@@ -25,7 +27,8 @@ export default class Dashboard extends ListenerComponent {
         return [
             OrderBookStore,
             WalletStore,
-            CredentialsStore
+            CredentialsStore,
+            TransactionStore
         ];
     }
 
@@ -40,7 +43,8 @@ export default class Dashboard extends ListenerComponent {
             bids: OrderBookStore.getBids(),
             asks: OrderBookStore.getAsks(),
             myBids: OrderBookStore.getMyBids(),
-            myAsks: OrderBookStore.getMyAsks()
+            myAsks: OrderBookStore.getMyAsks(),
+            transactions: TransactionStore.getMyTransactions()
         };
     }
 
@@ -66,6 +70,7 @@ export default class Dashboard extends ListenerComponent {
                     asks={this.state.myAsks}
                 />
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
+                <Transactions transactions={this.state.transactions} />
                 <Footer />
             </div>
         );

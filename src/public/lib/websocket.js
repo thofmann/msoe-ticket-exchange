@@ -90,4 +90,10 @@ export default function() {
         });
     });
 
+    socket.on('update my transactions', myTransactions => {
+        Dispatcher.handleAction('UPDATE_MY_TRANSACTIONS', {
+            myTransactions
+        });
+    });
+
 }
