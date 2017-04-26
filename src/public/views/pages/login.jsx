@@ -67,7 +67,6 @@ export default class Login extends ListenerComponent {
             });
             return;
         }
-        // TODO: overlay while submitting?
         saltAndHash(password, studentEmail).then(hashedPassword => {
             return post('student/login', {
                 studentEmail,
@@ -75,8 +74,8 @@ export default class Login extends ListenerComponent {
             });
         }).then(data => {
             Cookies.set('authTokenA', data.authTokenA, {
-                expires: 7 // expires in 7 days; TODO: allow user to choose how long the tokens are valid
-                // TODO: use 'secure' flag
+                expires: 7, // expires in 7 days
+                secure: true
             });
             Cookies.set('studentEmail', studentEmail, {
                 expires: 7 // expires in 7 days
