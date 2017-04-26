@@ -6,12 +6,6 @@ import { validateQuantity, validatePrice, validateId } from '../lib/validate';
 
 let app = express();
 
-app.get('/all', (req, res) => {
-    res.successJson({
-        bids: ExchangeStore.getBids()
-    });
-});
-
 app.post('/', (req, res) => {
     let studentEmail = req.body.studentEmail;
     let quantity = req.body.quantity;
