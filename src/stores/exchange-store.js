@@ -405,4 +405,16 @@ store.registerHandler('CANCEL_ASK', data => {
     store.emitChange();
 });
 
+store.registerHandler('DEPOSIT_TICKETS', data => {
+    let recipientStudentEmail = data.recipientStudentEmail;
+    let quantity = data.quantity;
+    let timestamp = data.timestamp;
+    let student = students.get(recipientStudentEmail);
+    if (student === undefined) {
+        throw new Error('This student email address is not in use.');
+    }
+    createTransaction(recipientStudentEmail, 'tickets', quantity, 'Tickets deposited', timestamp);
+    store.emitChange();
+});
+
 export default store;

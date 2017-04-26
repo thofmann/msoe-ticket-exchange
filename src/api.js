@@ -2,6 +2,7 @@ import express from 'express';
 import student from './api/student';
 import bid from './api/bid';
 import ask from './api/ask';
+import ticket from './api/ticket';
 
 let app = express();
 
@@ -30,5 +31,6 @@ app.use((req, res, next) => {
 app.use('/student', student);
 app.use('/bid', bid);
 app.use('/ask', ask);
+app.use('/ticket', ticket);
 
 export default app;

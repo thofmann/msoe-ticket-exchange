@@ -13,6 +13,7 @@ import Notice from '../components/notice.jsx';
 import Overview from '../components/overview.jsx';
 import BuySell from '../components/buy-sell.jsx';
 import Transactions from '../components/transactions.jsx';
+import GiveTickets from '../components/give-tickets.jsx';
 
 export default class Dashboard extends ListenerComponent {
 
@@ -38,6 +39,7 @@ export default class Dashboard extends ListenerComponent {
             backupEmail: CredentialsStore.getBackupEmail(),
             authTokenA: CredentialsStore.getAuthTokenA(),
             authTokenB: CredentialsStore.getAuthTokenB(),
+            isAdmin: CredentialsStore.isAdmin(),
             tickets: WalletStore.getTickets(),
             satoshis: WalletStore.getSatoshis(),
             bids: OrderBookStore.getBids(),
@@ -49,6 +51,7 @@ export default class Dashboard extends ListenerComponent {
     }
 
     render() {
+        let giveTickets = this.state.isAdmin ? <GiveTickets studentEmail={this.state.studentEmail} authTokenA={this.state.authTokenA} authTokenB={this.state.authTokenB} /> : false;
         return (
             <div id='dashboard'>
                 <Notice />
@@ -72,6 +75,7 @@ export default class Dashboard extends ListenerComponent {
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Transactions transactions={this.state.transactions} />
                 <Footer />
+                {giveTickets}
             </div>
         );
     }
