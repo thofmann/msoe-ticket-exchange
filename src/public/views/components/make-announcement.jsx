@@ -1,60 +1,48 @@
 import React from 'react';
 import { post } from '../../lib/api';
 
-export default class GiveTickets extends React.Component {
+export default class MakeAnnouncement extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            recipientStudentEmail: '',
-            quantity: '',
+            title: '',
+            text: '',
             error: undefined,
             status: 'editing'
         };
     }
 
-    updateRecipientStudentEmail(e) {
+    updateTitle(e) {
         this.setState({
-            recipientStudentEmail: e.target.value,
+            title: e.target.value,
             error: undefined
         });
     }
 
-    updateQuantity(e) {
+    updateText(e) {
         this.setState({
-            quantity: e.target.value,
+            text: e.target.value,
             error: undefined
         });
     }
 
     submit(e) {
         e.preventDefault();
-        let recipientStudentEmail = this.state.recipientStudentEmail;
-        let quantity = this.state.quantity;
-        if (quantity === '') {
+        let title = this.state.title;
+        let text = this.state.text;
+        if (title === '') {
             return this.setState({
-                error: 'Please enter a quantity.'
+                error: 'Please enter a title.'
             });
         }
-        if (recipientStudentEmail === '') {
+        if (text === '') {
             return this.setState({
-                error: 'Please enter a student email.'
-            });
-        }
-        quantity = parseInt(quantity);
-        if (!Number.isInteger(quantity)) {
-            return this.setState({
-                error: 'Please enter a numeric quantity.'
-            });
-        }
-        if (quantity < 1) {
-            return this.setState({
-                error: 'Please enter a quantity of at least 1.'
+                error: 'Please enter text.'
             });
         }
         this.setState({
-            status: 'confirming',
-            quantity: quantity.toString(),
+            status: 'confirming'
         });
     }
 
@@ -62,15 +50,14 @@ export default class GiveTickets extends React.Component {
         this.setState({
             status: 'submitting'
         });
-        let recipientStudentEmail = this.state.recipientStudentEmail;
-        let quantity = this.state.quantity;
-        quantity = parseInt(quantity);
-        post('ticket/give', {
+        let title = this.state.title;
+        let text = this.state.text;
+        post('announcement', {
             studentEmail: this.props.studentEmail,
             authTokenA: this.props.authTokenA,
             authTokenB: this.props.authTokenB,
-            recipientStudentEmail,
-            quantity
+            title,
+            text
         }).then(() => {
             this.setState({
                 status: 'editing'
@@ -98,8 +85,10 @@ export default class GiveTickets extends React.Component {
                 <div className='overlay'>
                     <div className='modal-container'>
                         <div className='modal'>
-                            <p>Are you sure that you would like to <b>give {this.state.quantity} tickets to {this.state.recipientStudentEmail}</b>?</p>
-                            <input type='button' value='Give Tickets' onClick={() => this.confirm()} />
+                            <p>Are you sure that you would like to make this announcement?</p>
+                            <p>Title: {this.state.title}</p>
+                            <p>Text: {this.state.text}</p>
+                            <input type='button' value='Make Announcement' onClick={() => this.confirm()} />
                             <input type='button' className='cancel' value='Cancel' onClick={() => this.cancel()} />
                         </div>
                     </div>
@@ -111,7 +100,7 @@ export default class GiveTickets extends React.Component {
                 <div className='overlay'>
                     <div className='modal-container'>
                         <div className='modal'>
-                            <p>Attempting to <b>give {this.state.quantity} tickets to {this.state.recipientStudentEmail}</b>...</p>
+                            <p>Attempting to post announcement...</p>
                         </div>
                     </div>
                 </div>
@@ -125,11 +114,11 @@ export default class GiveTickets extends React.Component {
                 {this.renderConfirmation()}
                 <div className='simple-form'>
                     <form onSubmit={e => this.submit(e)}>
-                        Student Email:
-                        <input type='email' value={this.state.recipientStudentEmail} onChange={e => this.updateRecipientStudentEmail(e)} />
-                        Quantity:
-                        <input type='number' value={this.state.quantity} min='1' max='1000' step='1' onChange={e => this.updateQuantity(e)} />
-                        <input type='submit' value='Give Tickets' />
+                        Title:
+                        <input type='text' value={this.state.title} onChange={e => this.updateTitle(e)} />
+                        Text:
+                        <input type='text' value={this.state.text} onChange={e => this.updateText(e)} />
+                        <input type='submit' value='Make Announcement' />
                         {this.state.error === undefined ? false : <div className='error'>{this.state.error}</div>}
                     </form>
                 </div>

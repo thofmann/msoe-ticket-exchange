@@ -128,3 +128,33 @@ export function validateId(id) {
         throw new Error(`An id cannot be greater than ${Number.MAX_SAFE_INTEGER}.`);
     }
 }
+
+export function validateTitle(title) {
+    if (title === undefined) {
+        throw new Error('A title must be defined.');
+    }
+    if (typeof title !== 'string') {
+        throw new Error('A title must be a string.');
+    }
+    if (title.length < 1) {
+        throw new Error('A title must be at leaster 1 character.');
+    }
+    if (title.length > 500) {
+        throw new Error('A title cannot be longer than 500 characters.');
+    }
+}
+
+export function validateText(text) {
+    if (text === undefined) {
+        throw new Error('A text must be defined.');
+    }
+    if (typeof text !== 'string') {
+        throw new Error('A text must be a string.');
+    }
+    if (text.length < 1) {
+        throw new Error('A text must be at leaster 1 character.');
+    }
+    if (text.length > 5000) {
+        throw new Error('A text cannot be longer than 5000 characters.');
+    }
+}

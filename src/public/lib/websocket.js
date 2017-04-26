@@ -78,6 +78,12 @@ export default function() {
         });
     });
 
+    socket.on('update announcements', announcements => {
+        Dispatcher.handleAction('UPDATE_ANNOUNCEMENTS', {
+            announcements
+        });
+    });
+
     socket.on('update my bids', myBids => {
         Dispatcher.handleAction('UPDATE_MY_BIDS', {
             myBids

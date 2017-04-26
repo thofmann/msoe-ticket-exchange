@@ -14,6 +14,7 @@ import Overview from '../components/overview.jsx';
 import BuySell from '../components/buy-sell.jsx';
 import Transactions from '../components/transactions.jsx';
 import GiveTickets from '../components/give-tickets.jsx';
+import MakeAnnouncement from '../components/make-announcement.jsx';
 
 export default class Dashboard extends ListenerComponent {
 
@@ -50,8 +51,19 @@ export default class Dashboard extends ListenerComponent {
         };
     }
 
+    renderAdmin() {
+        if (!this.state.isAdmin) {
+            return false;
+        }
+        return (
+            <div className='pure-g'>
+                <GiveTickets studentEmail={this.state.studentEmail} authTokenA={this.state.authTokenA} authTokenB={this.state.authTokenB} />
+                <MakeAnnouncement studentEmail={this.state.studentEmail} authTokenA={this.state.authTokenA} authTokenB={this.state.authTokenB} />
+            </div>
+        );
+    }
+
     render() {
-        let giveTickets = this.state.isAdmin ? <GiveTickets studentEmail={this.state.studentEmail} authTokenA={this.state.authTokenA} authTokenB={this.state.authTokenB} /> : false;
         return (
             <div id='dashboard'>
                 <Notice />
@@ -75,7 +87,7 @@ export default class Dashboard extends ListenerComponent {
                 <OrderBook bids={this.state.bids} asks={this.state.asks} />
                 <Transactions transactions={this.state.transactions} />
                 <Footer />
-                {giveTickets}
+                {this.renderAdmin()}
             </div>
         );
     }

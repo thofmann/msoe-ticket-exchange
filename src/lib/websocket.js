@@ -8,6 +8,7 @@ let ticketsExchanged = ExchangeStore.getTicketsExchangedCount();
 let lastPrice = ExchangeStore.getLastPrice();
 let bids = ExchangeStore.getAnonymizedBids();
 let asks = ExchangeStore.getAnonymizedAsks();
+let announcements = ExchangeStore.getAnnouncements();
 
 export default function(server) {
 
@@ -19,6 +20,7 @@ export default function(server) {
         socket.emit('update last price', lastPrice);
         socket.emit('update bids', bids);
         socket.emit('update asks', asks);
+        socket.emit('update announcements', announcements);
         let onChange;
         let studentEmail;
         let tickets;
@@ -79,6 +81,9 @@ export default function(server) {
         }
         if (JSON.stringify(asks) !== JSON.stringify(asks = ExchangeStore.getAnonymizedAsks())) {
             io.emit('update asks', asks);
+        }
+        if (JSON.stringify(announcements) !== JSON.stringify(announcements = ExchangeStore.getAnnouncements())) {
+            io.emit('update announcements', announcements);
         }
     });
 

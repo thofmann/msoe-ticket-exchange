@@ -13,8 +13,8 @@ class OrderBookStore extends Store {
 
 const store = new OrderBookStore();
 
-store.registerHandler('NEW_ANNOUNCEMENT', data => {
-    announcements.push(data.announcement);
+store.registerHandler('UPDATE_ANNOUNCEMENTS', data => {
+    announcements = data.announcements;
     store.emitChange();
 });
 

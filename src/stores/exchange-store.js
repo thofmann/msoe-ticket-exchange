@@ -10,6 +10,8 @@ let totalTicketsExchanged = 0;
 let lastPrice;
 let nextBidId = 0;
 let nextAskId = 0;
+let announcements = []; // descending by timestamp
+let nextAnnouncementId = 0;
 
 function getStudentByBackupEmail(backupEmail) {
     for (let student of students.values()) {
@@ -67,6 +69,10 @@ function insertAsk(quantity, price, studentEmail) {
 }
 
 class ExchangeStore extends Store {
+
+    getAnnouncements() {
+        return clone(announcements);
+    }
 
     getStudent(studentEmail) {
         return clone(students.get(studentEmail));
@@ -190,7 +196,7 @@ store.registerHandler('NEW_STUDENT', data => {
         salt,
         hashedAuthTokens: [],
         balance: {
-            tickets: 0
+            tickets: 0,
             satoshis: 100000000 // TODO: 0
         },
         transactions: [] // descending by timestamp
@@ -414,6 +420,17 @@ store.registerHandler('DEPOSIT_TICKETS', data => {
         throw new Error('This student email address is not in use.');
     }
     createTransaction(recipientStudentEmail, 'tickets', quantity, 'Tickets deposited', timestamp);
+    store.emitChange();
+});
+
+store.registerHandler('MAKE_ANNOUNCEMENT', data => {
+    announcements.unshift({
+        title: data.title,
+        text: data.text,
+        timestamp: data.timestamp,
+        id: nextAnnouncementId
+    });
+    nextAnnouncementId++;
     store.emitChange();
 });
 

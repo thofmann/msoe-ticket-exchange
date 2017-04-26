@@ -13,9 +13,11 @@ export default class Announcements extends React.Component {
             );
         }
         return (
-            <div className='announcements'>
-                <div className='title'>Announcements</div>
-                {this.props.announcements.map((announcement, i) => <Announcement key={i} announcement={announcement} />)}
+            <div className='announcements-container'>
+                <div className='announcements'>
+                    <div className='title'>Announcements</div>
+                    {this.props.announcements.map((announcement, i) => <Announcement key={i} announcement={announcement} />)}
+                </div>
             </div>
         );
     }
