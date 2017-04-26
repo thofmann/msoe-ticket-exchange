@@ -28,10 +28,6 @@ function call(endpoint, method, qs, json) {
     });
 }
 
-export function get(endpoint, data) {
-    return call(endpoint, 'GET', data);
-}
-
 export function post(endpoint, data) {
     return call(endpoint, 'POST', undefined, data);
 }
