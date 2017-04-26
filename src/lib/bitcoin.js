@@ -41,7 +41,7 @@ export function post(endpoint, data) {
 }
 
 export function put(endpoint, data) {
-    return call(endpoint, 'PUT', data);
+    return call(endpoint, 'PUT', undefined, data);
 }
 
 function createWallet() {
