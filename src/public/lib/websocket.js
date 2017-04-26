@@ -1,6 +1,8 @@
 import SocketIO from 'socket.io-client';
+import Cookies from 'js-cookie';
 import { Dispatcher } from 'consus-core/flux';
 import CredentialsStore from '../stores/credentials-store';
+import { history } from '../views/app.jsx';
 
 export default function() {
 
@@ -15,6 +17,14 @@ export default function() {
             authTokenB: CredentialsStore.getAuthTokenB()
         });
     }
+
+    socket.on('authentication failed', () => {
+        Cookies.remove('studentEmail');
+        Cookies.remove('authTokenA');
+        Cookies.remove('authTokenB');
+        Dispatcher.handleAction('LOGOUT');
+        history.push('/');
+    });
 
     socket.on('update students registered', studentsRegistered => {
         Dispatcher.handleAction('UPDATE_STUDENTS_REGISTERED', {

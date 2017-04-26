@@ -4,6 +4,9 @@ import { md5 } from '../../lib/crypto';
 export default class Overview extends React.Component {
 
     render() {
+        if (this.props.studentEmail === undefined) {
+            return false;
+        }
         let src = `https://s.gravatar.com/avatar/${md5(this.props.backupEmail)}?s=100`;
         src = `https://s.gravatar.com/avatar/${md5(this.props.studentEmail)}?s=100&d=${encodeURIComponent(src)}`;
         let tickets = this.props.tickets === undefined ? '-' : this.props.tickets;
