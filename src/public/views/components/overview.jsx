@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { md5 } from '../../lib/crypto';
 
 export default class Overview extends React.Component {
@@ -18,8 +19,8 @@ export default class Overview extends React.Component {
                     <div className='details'>
                         <span>Student email address: {this.props.studentEmail}</span>
                         <span>Backup email address: {this.props.backupEmail}</span>
-                        <span>Tickets: {tickets}</span>
-                        <span>mBTC: {mBTC}</span>
+                        <span>Tickets: {tickets} <Link to='/deposit-tickets'>(deposit)</Link> <Link to='/withdraw-tickets'>(withdraw)</Link></span>
+                        <span>mBTC: {mBTC} <Link to='/deposit-bitcoins'>(deposit)</Link> <Link to='/withdraw-bitcoins'>(withdraw)</Link></span>
                     </div>
                 </div>
             </div>

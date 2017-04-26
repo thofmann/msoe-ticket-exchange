@@ -10,6 +10,10 @@ import CompleteLogin from './pages/complete-login.jsx';
 import Terms from './pages/terms.jsx';
 import Fees from './pages/fees.jsx';
 import Dashboard from './pages/dashboard.jsx';
+import DepositTickets from './pages/deposit-tickets.jsx';
+import WithdrawTickets from './pages/withdraw-tickets.jsx';
+import DepositBitcoins from './pages/deposit-bitcoins.jsx';
+import WithdrawBitcoins from './pages/withdraw-bitcoins.jsx';
 import NotFound from './pages/not-found.jsx';
 
 export const history = createBrowserHistory();
@@ -28,6 +32,10 @@ export default class App extends React.Component {
                     <Route path='/terms' component={Terms} />
                     <Route path='/fees' component={Fees} />
                     <Route path='/dashboard' component={Dashboard} />
+                    <Route path='/deposit-tickets' component={DepositTickets} />
+                    <Route path='/withdraw-tickets' component={WithdrawTickets} />
+                    <Route path='/deposit-bitcoins' component={DepositBitcoins} />
+                    <Route path='/withdraw-bitcoins' component={WithdrawBitcoins} />
                     <Route component={NotFound} />
                 </Switch>
             </Router>
