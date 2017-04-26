@@ -28,6 +28,10 @@ class CredentialsStore extends Store {
         return studentEmail !== undefined && authTokenA !== undefined && authTokenB !== undefined;
     }
 
+    isAdmin() {
+        return studentEmail === 'hofmannt@msoe.edu';
+    }
+
 }
 
 const store = new CredentialsStore();
